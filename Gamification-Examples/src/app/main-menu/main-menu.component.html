@@ -1,0 +1,34 @@
+<mat-sidenav-container class="sidenav-container">
+          <mat-sidenav #drawer class="sidenav" fixedInViewport
+              [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+              [mode]="(isHandset$ | async) ? 'over' : 'side'"
+              [opened]="(isHandset$ | async) === false">
+            <mat-toolbar >
+              <a (click)="drawer.close()" >Home</a>
+            </mat-toolbar>
+            <mat-nav-list color="accent">
+              <a mat-list-item href="/Documentação">Documentação</a>
+              <a mat-list-item >OnBoarding</a>
+              <a mat-list-item href="/Medalhas">Medalhas</a>
+              <a mat-list-item >Pontuação</a>
+              <a mat-list-item >Missões</a>
+              <a mat-list-item href="/Nível">Nível</a>
+            </mat-nav-list>
+          </mat-sidenav> 
+          <mat-sidenav-content>
+              <a (click)="drawer.toggle()">
+                <mat-toolbar color="primary">                
+                  <button mat-button
+                    type="mat-fab"
+                    aria-label="Toggle sidenav"
+                    mat-icon-button
+                    (click)="drawer.toggle()"
+                    *ngIf="isHandset$ | async">
+                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                  </button>
+                  <span>Exemplos de Gamificação</span>
+                </mat-toolbar>
+              </a>
+            <!-- Add Content Here -->
+          </mat-sidenav-content>
+        </mat-sidenav-container>

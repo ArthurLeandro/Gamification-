@@ -1,0 +1,8 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.Toolbar{
+  width: 100%;
+}
+h4{
+  padding: 6px;
+}
