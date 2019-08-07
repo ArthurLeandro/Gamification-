@@ -7,12 +7,12 @@
               <a (click)="drawer.close()" >Home</a>
             </mat-toolbar>
             <mat-nav-list color="accent">
-              <a mat-list-item href="/Documentação">Documentação</a>
-              <a mat-list-item >OnBoarding</a>
-              <a mat-list-item href="/Medalhas">Medalhas</a>
-              <a mat-list-item >Pontuação</a>
-              <a mat-list-item >Missões</a>
-              <a mat-list-item href="/Nível">Nível</a>
+              <a mat-list-item routerLink="/Documentação" >Documentação</a>
+              <a mat-list-item routerLink="/OnBoarding" >OnBoarding</a>
+              <a mat-list-item routerLink="/Medalhas" >Medalhas</a>
+              <a mat-list-item routerLink="/Pontuação" >Pontuação</a>
+              <a mat-list-item routerLink="/Missões" >Missões</a>
+              <a mat-list-item routerLink="/Nível" >Nível</a>
             </mat-nav-list>
           </mat-sidenav> 
           <mat-sidenav-content>
@@ -31,4 +31,4 @@
               </a>
             <!-- Add Content Here -->
           </mat-sidenav-content>
-        </mat-sidenav-container>
+</mat-sidenav-container>

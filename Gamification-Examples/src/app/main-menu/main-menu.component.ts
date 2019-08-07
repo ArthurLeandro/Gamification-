@@ -1,8 +1,13 @@
+
 import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, share } from 'rxjs/operators';
 
+import { RouterModule } from '@angular/router';
+
+import { HomeComponent } from './../home/home.component';
+import {MatCardModule} from '@angular/material';
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html',

@@ -1,6 +1,7 @@
 // Funcionalities
 import{Routes, RouterModule} from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+
 // On Boarding
 import { CustomizationComponent } from './on-boarding/customization/customization.component';
 import { HelpBoxComponent } from './on-boarding/help-box/help-box.component';
@@ -24,7 +25,8 @@ import { ComumComponent } from './missoes/comum/comum.component';
 import { NivelComponent } from './nivel/nivel.component';
 
 const APP_ROUTES: Routes=[
-  {path:'Home',component:MainMenuComponent},
+  {path:'',component:MainMenuComponent},
+  {path:'Documentação',component:MainMenuComponent},
   //------------------------------------------------------------------
   {path:"OnBoarding",component:OnBoardingComponent},
   {path:"OnBoarding/HelpBox",component:HelpBoxComponent},
@@ -33,18 +35,19 @@ const APP_ROUTES: Routes=[
   //------------------------------------------------------------------
   {path:"Medalhas",component:MedalhasComponent},
   //------------------------------------------------------------------
-  {path:"Pontuacao",component:PontuacaoComponent},
+  {path:"Pontuação",component:PontuacaoComponent},
   {path:"Pontuacao/Educoin",component:EducoinComponent},
   {path:"Pontuacao/Pontos",component:PontosComponent},
   {path:"Pontuacao/Karma",component:KarmaComponent},
   {path:"Pontuacao/Reputacao",component:ReputacaoComponent},
   //------------------------------------------------------------------
-  {path:"Missoes",component:MissoesComponent},
+  {path:"Missões",component:MissoesComponent},
   {path:"Missoes/Coop",component:CoopComponent},
   {path:"Missoes/Sazonal",component:SazonableComponent},
   {path:"Missoes/Comum",component:ComumComponent},
   //------------------------------------------------------------------
-  {path:"Nivel",component:NivelComponent},
+  {path:"Nível",component:NivelComponent},
 ];
 
 export const Routing: ModuleWithProviders=RouterModule.forRoot(APP_ROUTES);
+exports: [RouterModule.forRoot(APP_ROUTES)]
