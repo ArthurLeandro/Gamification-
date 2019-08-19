@@ -2,6 +2,10 @@
 import{Routes, RouterModule} from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
+//Home
+import{HomeComponent} from './home/home.component';
+//Documentation
+import{DocumentationComponent} from './documentation/documentation.component';
 // On Boarding
 import { CustomizationComponent } from './on-boarding/customization/customization.component';
 import { HelpBoxComponent } from './on-boarding/help-box/help-box.component';
@@ -25,8 +29,8 @@ import { ComumComponent } from './missoes/comum/comum.component';
 import { NivelComponent } from './nivel/nivel.component';
 
 const APP_ROUTES: Routes=[
-  {path:'',component:MainMenuComponent},
-  {path:'Documentação',component:MainMenuComponent},
+  {path:'',component:HomeComponent},
+  {path:'Documentação',component:DocumentationComponent},
   //------------------------------------------------------------------
   {path:"OnBoarding",component:OnBoardingComponent},
   {path:"OnBoarding/HelpBox",component:HelpBoxComponent},

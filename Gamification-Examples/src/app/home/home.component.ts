@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {MatButtonModule,MatToolbarModule,MatIconModule} from '@angular/material';
-import {MatCardModule} from '@angular/material/card';
-import{RouterModule} from '@angular/router' ;
-
+import {MatButtonModule,MatToolbarModule,MatIconModule,MatCardModule,MatDialog,MatDialogConfig} from '@angular/material';
+import { DialogTestComponent } from '../dialog-test/dialog-test.component';
 @Component({
   selector: 'home-component',
   templateUrl: './home.component.html',
@@ -10,9 +8,12 @@ import{RouterModule} from '@angular/router' ;
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
+  OpenDialogById(){ 
+    this.dialog.open(DialogTestComponent);
+  }
 }

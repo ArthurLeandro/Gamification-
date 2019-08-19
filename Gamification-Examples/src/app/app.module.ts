@@ -4,45 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { 
-  MatAutocompleteModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatCommonModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatFormFieldModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatLineModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatOptionModule,
-  MatPaginatorModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatPseudoCheckboxModule,
-  MatRadioModule,
-  MatRippleModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
-  MatTableModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule,
- } from '@angular/material';
+import{AngularMaterialModule} from './angular.material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Routing } from './app.routing';
 
@@ -62,6 +24,8 @@ import { CoopComponent } from './missoes/coop/coop.component';
 import { SazonableComponent } from './missoes/sazonable/sazonable.component';
 import { ComumComponent } from './missoes/comum/comum.component';
 import { HomeComponent } from './home/home.component';
+import { DocumentationComponent } from './documentation/documentation.component';
+import { DialogTestComponent } from './dialog-test/dialog-test.component';
 
 @NgModule({
   declarations: [
@@ -82,20 +46,19 @@ import { HomeComponent } from './home/home.component';
     CoopComponent,
     SazonableComponent,
     ComumComponent,
-    HomeComponent
+    HomeComponent,
+    DocumentationComponent,
+    DialogTestComponent
   ],
   imports: [
     BrowserModule,
     LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
+    AngularMaterialModule,
     BrowserAnimationsModule,
-    Routing
+    Routing,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[DialogTestComponent],
 })
 export class AppModule { }

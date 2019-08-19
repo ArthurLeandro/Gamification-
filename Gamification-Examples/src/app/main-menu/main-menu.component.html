@@ -3,16 +3,20 @@
               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
               [mode]="(isHandset$ | async) ? 'over' : 'side'"
               [opened]="(isHandset$ | async) === false">
-            <mat-toolbar >
-              <a (click)="drawer.close()" >Home</a>
+            <mat-toolbar color="primary">
+              <h4>Exemplos</h4>
+              <div flex></div>
+              <button mat-icon-button class="SideNavCloseButton" (click)="drawer.close()">
+                  <mat-icon aria-label="Close Sidenav">close</mat-icon>
+              </button>
             </mat-toolbar>
-            <mat-nav-list color="accent">
-              <a mat-list-item routerLink="/Documentação" >Documentação</a>
-              <a mat-list-item routerLink="/OnBoarding" >OnBoarding</a>
-              <a mat-list-item routerLink="/Medalhas" >Medalhas</a>
-              <a mat-list-item routerLink="/Pontuação" >Pontuação</a>
-              <a mat-list-item routerLink="/Missões" >Missões</a>
-              <a mat-list-item routerLink="/Nível" >Nível</a>
+            <mat-nav-list>
+              <a mat-list-item routerLink="/Documentação" > Documentação   </a>
+              <a mat-list-item routerLink="/OnBoarding"   > On Boarding    </a> 
+              <a mat-list-item routerLink="/Medalhas"     > Medalhas       </a>
+              <a mat-list-item routerLink="/Pontuação"    > Pontuação      </a>
+              <a mat-list-item routerLink="/Missões"      > Missões        </a>
+              <a mat-list-item routerLink="/Nível"        > Nível          </a>
             </mat-nav-list>
           </mat-sidenav> 
           <mat-sidenav-content>
@@ -29,6 +33,7 @@
                   <span>Exemplos de Gamificação</span>
                 </mat-toolbar>
               </a>
-            <!-- Add Content Here -->
+            <!-- Add Content Here --> 
+            <router-outlet></router-outlet>
           </mat-sidenav-content>
 </mat-sidenav-container>
