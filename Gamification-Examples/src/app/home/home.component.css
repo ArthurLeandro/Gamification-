@@ -31,19 +31,12 @@ h4{
   margin: 0 auto;
   justify-content: center;
 }
-span{
-  align-content: center;
-}
 h2{
   font-size: 18px;
   text-align: center;
 }
 .ButtonCenter{
   text-align: center;
-}
-mat-list{
-  background-color: white;
-  size: 70%;
 }
 a{
   text-decoration: none;

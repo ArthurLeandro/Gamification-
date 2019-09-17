@@ -1,6 +1,6 @@
-import{MatDialogRef} from '@angular/material';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Injectable } from '@angular/core';
 
+import{MatDialogRef} from '@angular/material';
 @Component({
   selector: 'app-dialog-test',
   templateUrl: './dialog-test.component.html',
@@ -8,13 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogTestComponent implements OnInit {
 
-  constructor(public dialogBox :MatDialogRef<DialogTestComponent>) { }
+  title:           string = "Título";
+  textToBeShowned: string = "Texto que vai aparecer";
+
+  constructor(public dialogBox :MatDialogRef<DialogTestComponent>) { 
+    
+  }
 
   ngOnInit() {
+    
   }
   
   OnClose(){
     this.dialogBox.close();
   }
+
   
 }

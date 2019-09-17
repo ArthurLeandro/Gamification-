@@ -1,0 +1,51 @@
+
+*{
+  padding: 0;
+  margin: 0;
+}
+body{
+  background-color: rgb(170, 170, 170);
+}
+.container{
+  background-color: rgb(170, 170, 170);
+  padding: 3em;
+  width:100%;
+}
+div.button-placeHolder{
+  
+  background-color: rgb(214, 214, 213);
+  margin: 5em;
+  padding: 3em ;
+  text-align: center;
+ 
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 3em;
+  padding: 1.5em;
+  padding-block-end: 0em;
+  border: 0ch;
+}
+span{
+  display: flex;
+  justify-content: space-around;
+}
+.mat-raised-button{
+  width: 60%;
+  margin: 5px;
+}
+h6{
+  text-align: center;
+  color: rgb(200,200,200);
+}
+
+@media(max-width:1000px){
+  .wrapper{
+    grid-template-columns: 1fr;
+  }
+  .button-template{
+    font-size: 9px;
+  }
+}

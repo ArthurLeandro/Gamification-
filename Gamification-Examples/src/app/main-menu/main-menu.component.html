@@ -11,12 +11,10 @@
               </button>
             </mat-toolbar>
             <mat-nav-list>
-              <a mat-list-item routerLink="/Documentação" > Documentação   </a>
-              <a mat-list-item routerLink="/OnBoarding"   > On Boarding    </a> 
-              <a mat-list-item routerLink="/Medalhas"     > Medalhas       </a>
-              <a mat-list-item routerLink="/Pontuação"    > Pontuação      </a>
-              <a mat-list-item routerLink="/Missões"      > Missões        </a>
-              <a mat-list-item routerLink="/Nível"        > Nível          </a>
+              <a mat-list-item routerLink="/Interação" > Interação</a>
+              <a mat-list-item routerLink="/Eventos"   > Eventos</a> 
+              <a mat-list-item routerLink="/Customização"> Customização</a>
+              <a mat-list-item routerLink="/Tutorial"> Tutorial</a>
             </mat-nav-list>
           </mat-sidenav> 
           <mat-sidenav-content>
@@ -34,6 +32,9 @@
                 </mat-toolbar>
               </a>
             <!-- Add Content Here --> 
-            <router-outlet></router-outlet>
+            <div class="content">
+              <router-outlet></router-outlet>
+            </div>
+            
           </mat-sidenav-content>
 </mat-sidenav-container>
