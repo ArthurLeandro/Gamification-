@@ -15,11 +15,11 @@
             </h2>
           </span>
           <br>
-          <h6>Karma Points : {{user.atributes.KarmaPoints.toPrecision(4)}}</h6>
+          <h6>Karma Points : {{user.atributes.KarmaPoints.toPrecision(2)}}</h6>
           <br><br>
           <span>
-            <button mat-stroked-button color="primary" (click)="IncreaseKarma()">Incrementar Karma</button>
-            <button mat-stroked-button color="warn" (click)="DecreaseKarma()">Decrementar Karma</button>
+            <button mat-stroked-button color="primary" (click)="OnKarmaChange($event)">Incrementar Karma</button>
+            <button mat-stroked-button color="warn" (click)="OnKarmaChange($event)">Decrementar Karma</button>
           </span>
         </div>
         <div class="wrapper">
@@ -27,7 +27,7 @@
             <div class="button-template">              
             <h2>Criação de Recursos</h2>
               <span>
-                <button mat-raised-button id="Plano de Aula" color="primary" (click)="UpdateUserPoints($event);FillLevelBar($event)" type="button" >
+                <button mat-raised-button id="Plano de Aula" color="primary" (click)="OnCreation($event)" type="button" >
                   Plano de Aula
                 </button>
                 <button mat-icon-button >
@@ -39,7 +39,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button id="Plano de Ensino" mat-raised-button color="primary" (click)="UpdateUserPoints($event);FillLevelBar($event)" type="button" >
+                <button id="Plano de Ensino" mat-raised-button color="primary" (click)="OnCreation($event)" type="button" >
                   Plano de Ensino
                 </button>
   
@@ -52,7 +52,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnCreation($event)" type="button">
                   Atividade
                 </button>
   
@@ -65,7 +65,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnCreation($event)" type="button">
                   Recursos Pedagógicos
                 </button>
   
@@ -81,7 +81,7 @@
             <h2>Cadastros do Sistema</h2>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnRegistered($event)" type="button">
                   Professor
                 </button>
   
@@ -94,7 +94,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnRegistered($event)" type="button">
                   Tipo de Recurso
                 </button>
   
@@ -107,7 +107,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnRegistered($event)" type="button">
                   Grupo de Execução
                 </button>
   
@@ -120,7 +120,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnRegistered($event)" type="button">
                   Disciplina
                 </button>
   
@@ -136,7 +136,7 @@
             <h2>Engajamento do Usuário</h2>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnEngaged($event)" type="button">
                   Comentar
                 </button>
   
@@ -149,7 +149,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnEngaged($event)" type="button">
                   Favoritar
                 </button>
   
@@ -162,7 +162,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnEngaged($event)" type="button">
                   Melhorar
                 </button>
   
@@ -175,7 +175,7 @@
             </div>
             <div class="button-template">
               <span>
-                <button mat-raised-button color="primary"(click)="UpdateUserPoints($event);FillLevelBar($event)" type="button">
+                <button mat-raised-button color="primary"(click)="OnEngaged($event)" type="button">
                   Recomendar
                 </button>
                 <button mat-icon-button>
@@ -192,7 +192,7 @@
 
           </div>´ -->
           <div>
-            <mat-progress-bar matTooltip="{{valueOfTheProgressBar.toPrecision(2)}} %"  class="progress-bar" [value]="valueOfTheProgressBar.toPrecision(2)" >
+            <mat-progress-bar matTooltip="{{this.service.valueOfTheProgressBar.toPrecision(2)}} %"  class="progress-bar" [value]="this.service.valueOfTheProgressBar.toPrecision(2)" >
               
             </mat-progress-bar>
           </div>

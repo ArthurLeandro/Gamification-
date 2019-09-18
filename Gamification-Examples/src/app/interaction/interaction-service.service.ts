@@ -5,10 +5,30 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class InteractionServiceService {
-
-  constructor() { }  
+  nextLevelPoints:number;
+  public service: InteractionServiceService;
+  valueOfTheProgressBar:number;
   
+  constructor() { 
+    this.valueOfTheProgressBar= 0;
+    this.nextLevelPoints= 200;
+  }  
  
+  
+  public OnCreated(_actionName,_user:User):User{
+    _user.atributes.Points += this.PointsHandler(_actionName,_user); 
+    this.FillLevelBar(_actionName,_user);
+    return _user;
+  }
+  public OnRegistered(_actionName,_user:User):User{
+    _user.atributes.Points += this.PointsHandler(_actionName,_user);
+    return _user;
+  }
+  public OnEngaged(_actionName,_user:User):User{
+    _user.atributes.Points += this.PointsHandler(_actionName,_user);
+    this.FillLevelBar(_actionName,_user);
+    return _user;
+  }
   // #region Area of Level
 
   /** Function that it`s used to upadte the current Experience Points of an user
@@ -16,7 +36,6 @@ export class InteractionServiceService {
   * @returns Experience Points of that especific action
   */
   public LevelHandler(_actionName:string): number {
-    console.log(_actionName);
     switch (_actionName) {
       case " Plano de Aula ":
         return  200;
@@ -65,14 +84,52 @@ export class InteractionServiceService {
   * @returns The new current level of the user
   */
   public LevelUp(_user:User):number{
-    return _user.atributes.Level +=1 ;
+    return _user.atributes.Level +=1  ;
   }
   /** 'Method that update the maximum value of the progress bar'
   * @param _maximumLevel The current value of the progress bar
   * @returns The newest value of the current bar that it`s the older plus 60%
   */
-  public UpdateLevelPointsMaximum(_maximumLevel:number):number{
-    return 1.6 * _maximumLevel; 
+  /** 'Method that fill the progress bar'
+  * @param _actionName Name of the action that trigger the fulfillment of the progress bar
+  * @returns return void, but perform some procedures
+  */
+  public FillLevelBar(_actionName:string,_user:User):void{
+    let valueOfXp = this.LevelHandler(_actionName);
+    this.valueOfTheProgressBar += ((valueOfXp/this.nextLevelPoints)*100); 
+    do{
+      if(this.valueOfTheProgressBar >= 100){
+        // this.nextLevelPoints-this.valueOfTheProgressBar));
+        this.ResetBar();
+        _user.atributes.Level = this.LevelUp(_user);
+        this.UpdateBar(this.nextLevelPoints);
+        
+      }
+      valueOfXp--;
+      _user.atributes.ExperiencePoints ++;  
+    }while(valueOfXp>0)
+    this.valueOfTheProgressBar.toPrecision(4);
+    this.nextLevelPoints.toPrecision(4);
+    console.log("Value of the player XP " + _user.atributes.ExperiencePoints);
+    // let restingValue =  this.nextLevelPoints-this.valueOfTheProgressBar;
+    // console.log("Resting Value" + restingValue);
+    // this.valueOfTheProgressBar+=restingValue;
+  }
+  
+  /**'Method that Level Up the User current Level'
+  */
+  
+  
+  /**'Method that reset the state of the bar in the animation'
+  */
+  public ResetBar():void{
+    this.valueOfTheProgressBar=0;
+  }
+  
+  /**'Method that makes the maximum level of the bar increase by 60%'
+  */
+  public UpdateBar(_maximumLevel:number):void{
+    this.nextLevelPoints = _maximumLevel*1.6;
   }
   //#endregion
   
@@ -86,11 +143,9 @@ export class InteractionServiceService {
   public PointsHandler(_actionName:string, _user:User):number{
     let karmaPoints = this.GetCurrentKarmaPoints(_user);
     let points:number = 0;
-    console.log(_actionName);
     switch (_actionName) {
       case " Plano de Aula ":
         points += 200;
-        console.log("entrou no switch");
         break;
       case " Atividade ":
         points += 200;
@@ -152,16 +207,15 @@ export class InteractionServiceService {
   * @param _user Object that represents the final User
   * @returns The user newest Karma Points that were operated 
   */
-  public IncreaseKarmaPoints(_user:User):number{
-    return _user.atributes.KarmaPoints +=0.23;
+  public ChangeKarma(_actionName:string):number{
+    if(_actionName == "Incrementar Karma"){
+      return 0.2;
+    }
+    else{
+      return -0.2;
+    }
   }
-  /** 'Method that decrement the User Karma Points '
-  * @param _user Object that represents the final User
-  * @returns The user newest Karma Points that were operated 
-  */
-  public DecreaseKarmaPoints(_user:User):number{
-    return _user.atributes.KarmaPoints -= 0.23;
-  }
+
   /** 'Method that take the user current Karma Points'
   * @param _user Object that represents the final user
   * @returns The user current Karma Points
