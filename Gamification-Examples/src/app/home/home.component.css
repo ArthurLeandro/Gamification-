@@ -1,48 +1,25 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-.Toolbar{
-  width: 100%;
-}
-h4{
-  padding: 6px;
-}
-.CardContainer{
-  width: 250px;
-  height: 180px;
-  background-color: rgb(58, 86, 136);
-  border-block: 4px outset white;
-  margin: 20px;
-  float: inline-start
-}
-.CardTitle{
-  background-color: white;
-  size: 100%;
-}
-.CardParagraph{
-  background-color: white;
-  size: 100%;
-}
-.HomeHeader{
-  padding-block-end: 16px;
-  background-color: rgb(107, 183, 255);
-  color: white;
-}
-.button{
-  margin: 0 auto;
-  justify-content: center;
-}
-h2{
-  font-size: 18px;
-  text-align: center;
-}
-.ButtonCenter{
-  text-align: center;
-}
-a{
-  text-decoration: none;
-  color: black;
-}
-a:hover{
-  color: rgb(50,50,50);
+body{
+  margin: 0px;
+  padding: 0px;
+  background-color: rgb(119, 119, 119);
 }
 
+.all-cards.container{
+  padding: 4em;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 2em;
+}
+
+.mat-card-title{
+  text-align: center;
+}
+
+.mat-card-actions{
+  display: flexbox;
+}
+.a{
+  float: right;
+}

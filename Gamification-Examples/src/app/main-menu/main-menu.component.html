@@ -4,7 +4,7 @@
               [mode]="(isHandset$ | async) ? 'over' : 'side'"
               [opened]="(isHandset$ | async) === false">
             <mat-toolbar color="primary">
-              <h4>Exemplos</h4>
+            <h4><a style= "text-decoration: none; color: white " routerLink="/">Home</a></h4>
               <div flex></div>
               <button mat-icon-button class="SideNavCloseButton" (click)="drawer.close()">
                   <mat-icon aria-label="Close Sidenav">close</mat-icon>

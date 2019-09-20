@@ -1,3 +1,13 @@
+body{
+  background-color: rgb(131, 131, 131);
+}
+
+.container{
+  padding: 3em;
+  display:grid;
+  grid-template-columns: 1fr;
+  grid-gap: 4em;
+}
 .mat-card-title{
   font-size: 22px;
   font-weight: bolder;
