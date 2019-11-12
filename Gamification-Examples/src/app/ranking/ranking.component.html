@@ -1,0 +1,65 @@
+<body>
+  <div class="content">
+    <mat-tab-group>
+      <mat-tab label="Professores">
+          <app-ranking-professors></app-ranking-professors>
+      </mat-tab>
+      <mat-tab label="Atividades">
+        <app-ranking-activity></app-ranking-activity>
+      </mat-tab>
+      <mat-tab label="Recursos Pedagógicos">
+        <app-ranking-resources></app-ranking-resources>
+      </mat-tab>
+      <mat-tab label="Planos de Aula">
+        <app-ranking-lecture-plan></app-ranking-lecture-plan>
+      </mat-tab>
+      <mat-tab label="Planos de Ensino">
+        <app-ranking-teaching-method></app-ranking-teaching-method>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</body>
+
+<!-- <mat-card >
+  <div class="mainCard">
+    <span><h2>Ranking</h2></span>
+    <span class="inlineElements">
+        <mat-card-actions>
+            <mat-form-field>
+              <mat-label>Opções de organizar</mat-label>
+                <mat-select>
+                    <!-- <button class="resetButton" (click)="OnSortEvent($event)">
+                      <mat-option *ngFor="let type of types" [value]="type">
+                    {{type}} -->
+<!-- </mat-option> -->
+<!-- </button> -->
+<!-- </mat-select>
+            </mat-form-field>
+      </mat-card-actions>
+    </span>
+  </div>
+</mat-card>
+<table mat-table  [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="name">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Nome </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>        
+  <ng-container matColumnDef="points">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Pontuação </th>
+      <td mat-cell *matCellDef="let element"> {{element.points}} </td>
+  </ng-container>
+  <ng-container matColumnDef="educoins">  
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Educoins </th>
+      <td mat-cell *matCellDef="let element"> {{element.educoins}} </td>
+  </ng-container>
+  <ng-container matColumnDef="level">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Nível </th>
+      <td mat-cell *matCellDef="let element"> {{element.level}} </td>
+  </ng-container>
+  <ng-container matColumnDef="experience">
+      <th mat-header-cell mat-sort-header *matHeaderCellDef> Experiência Total </th>
+      <td mat-cell *matCellDef="let element"> {{element.experience}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row;columns: displayedColumns"></tr>
+</table> -->

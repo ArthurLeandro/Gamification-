@@ -1,3 +1,4 @@
+import { RankingComponent } from './ranking/ranking.component';
 import { CustomizationComponent } from './customization/customization.component';
 // Funcionalities
 import{Routes, RouterModule} from '@angular/router';
@@ -19,6 +20,7 @@ const APP_ROUTES: Routes=[
   {path:'Eventos',component:EventsComponent},
   {path:'Customização',component:CustomizationComponent},
   {path:'Tutorial',component:TutorialComponent},
+  {path:"Ranking",component:RankingComponent}
   //------------------------------------------------------------------
   
 ];

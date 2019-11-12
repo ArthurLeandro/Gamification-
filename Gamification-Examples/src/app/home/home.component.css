@@ -1,16 +1,7 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 body{
-  margin: 0px;
-  padding: 0px;
   background-color: rgb(119, 119, 119);
-}
-
-.all-cards.container{
-  padding: 4em;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-gap: 2em;
 }
 
 .mat-card-title{
@@ -20,6 +11,7 @@ body{
 .mat-card-actions{
   display: flexbox;
 }
+
 .a{
   float: right;
 }

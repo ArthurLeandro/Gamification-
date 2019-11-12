@@ -1,4 +1,5 @@
-import { User, DialogObject } from './interaction.component';
+import { User } from '../Classes/user';
+import { DialogObject } from './interaction.component';
 import { Injectable } from '@angular/core';
 
 @Injectable({

@@ -1,0 +1,16 @@
+body{
+  background-color: rgb(119, 119, 119);
+}
+div.content{
+  background-color: rgb(255,255,255); 
+  padding: 1em;
+  
+}
+table{
+  width: 100%;
+}
+.resetButton{
+  border: none;
+  background-color: rgba(0,0,0,0);
+  width:100%;
+}
