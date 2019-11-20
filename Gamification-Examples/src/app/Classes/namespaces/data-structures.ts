@@ -1,6 +1,12 @@
+import {DesignPatterns} from '../namespaces/design-patterns';
 export namespace DataStructure {
   export namespace ElementData {
     export class Data<T>{
+      dataInsideThisElements:T;
+      id:number;
+      constructor(_id:number){
+        this.id = _id;
+      }
     }
     export class Element<T>{
       data: DataStructure.ElementData.Data<T>;
@@ -36,15 +42,15 @@ export namespace DataStructure {
         this.SubtractToCounter();
         return elementToBeReturned;
       }
-      public GetIndexOfElement(_element: DataStructure.ElementData.Element<T>): number {
+      public GetIndexOfElement(_data: DataStructure.ElementData.Data<T>): number {
         let currentElement: DataStructure.ElementData.Element<T>;
         let index: number = 0;
-        while (_element != currentElement) {
+        while (_data != currentElement.data) {
           currentElement = currentElement.next;
           index++;
         }
         if (index == 0) {
-          return -1;
+          throw new Error("The element wasnt found inside the list.");
         }
         return index;
       }
