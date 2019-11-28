@@ -1,6 +1,7 @@
 import { DesignPatterns } from './design-patterns';
 import { DataStructure } from './data-structures';
 import { Injectable } from '@angular/core';
+import { summaryForJitName } from '@angular/compiler/src/aot/util';
 
 export namespace Gamification {
 
@@ -117,94 +118,6 @@ export namespace Gamification {
     amountOfExperience: number;
     karma: number;
     type: TypeOfReward;
-    OnPopUp(): void { }
-  }
-  //#endregion
-
-  //#region TutorialManager
-  export class Subject {
-    isActive: boolean;
-    textToShow: string;
-    focusPoint: any;
-    constructor(_text: string, _focus: any) {
-      this.SetText(_text);
-      this.SetFocus(_focus);
-    }
-    SetText(_text: string): void {
-      this.textToShow = _text;
-    }
-    SetFocus(_focus: any): void {
-      this.focusPoint = _focus;
-    }
-    SetActive(_active: boolean): void {
-      this.isActive = _active;
-    }
-    Activate(): JSON {
-      if (this.isActive) {
-        let subjectObject: JSON;
-        let auxiliaryObject: any = {
-          "Text": this.textToShow,
-          "Focus": this.focusPoint
-        }
-        auxiliaryObject = <JSON>subjectObject;
-        return auxiliaryObject;
-      }
-      else {
-        throw console.error("isActivate  wasn`t true so cannot Activate");
-      }
-    }
-    Deactivate(): void {
-      this.isActive = false;
-    }
-  }
-  //#endregion
-
-  //#region CustomizationManager
-  export class Addorn {
-    addornObject: JSON;
-    name: string;
-    image: string;
-    constructor(_name: string, _image: string) {
-      this.name = _name;
-      this.image = _image;
-      this.CreateAddornObject();
-    }
-    CreateAddornObject(): void {
-      let auxiliaryObject: any = {
-        "Name": this.name,
-        "Image": this.image
-      }
-      this.addornObject = <JSON>auxiliaryObject;
-    }
-  }
-  export abstract class Swapper {
-    type: TypeOfSwap;
-    currentValue: string;
-    Change(_value: string): void {
-    }
-    SetValue(_value: string): void {
-      this.currentValue = _value;
-    }
-  }
-  export class ColorSwapper extends Swapper {
-    color: string[];
-    Change(_value: string) {
-      if (this.CheckValue) {
-        this.currentValue = _value;
-      }
-      else {
-        throw console.error("The value wasnt in the array.");
-
-      }
-    }
-    CheckValue(_desiredValue: string): boolean {
-      for (let index = 0; index < this.color.length; index++) {
-        if (_desiredValue == this.color[index]) {
-          return true;
-        }
-      }
-      return false;
-    }
   }
   //#endregion
 
@@ -632,4 +545,215 @@ export namespace Gamification {
   }
   //#endregion
 
+  //#region PointsManager
+  export class PointsManager {
+    rewardToSet: Reward;
+    awardToSet: Award;
+    imageToShow: string;
+    public OnPopUp(): void {
+
+    }
+    public OnClosePopUp(): void {
+
+    }
+    public SetReward(reward: Reward): void {
+
+    }
+    public SetAward(award: Award): void {
+
+    }
+    public ShowUser(): void {
+
+    }
+    public AddToUser(type): void {
+
+    }
+  }
+  export class Points {
+    amountOfPoints: number;
+    public ClampValue(_minValue: number, _maxValue: number, _value: number): number {
+      if (_value < _minValue) {
+        return _minValue;
+      }
+      else if (_value > _maxValue) {
+        return _maxValue;
+      }
+      else {
+        return _value;
+      }
+    }
+  }
+  export class CoinPoints extends Points {
+    constructor(_amount: number) {
+      super();
+      this.amountOfPoints = _amount;
+    }
+
+    public OnBuyingItem(_item: Item) {
+
+    }
+  }
+  export class KarmaPoints extends Points {
+    constructor(_amount: number) {
+      super();
+      this.amountOfPoints = _amount;
+      this.amountOfPoints = this.ClampValue(0.1, 2.0, _amount)
+    }
+  }
+  export class ReputationPoints extends Points {
+    constructor(_amount: number) {
+      super();
+      this.amountOfPoints = _amount;
+      this.amountOfPoints = this.ClampValue(1, 5, _amount)
+    }
+  }
+
+  export class Item {
+
+  }
+  export class Award {
+    name: string;
+    description: string;
+    type: TypeOfReward;
+
+    public OnReceiveAward() {
+
+    }
+  }
+
+  //#endregion
+
+  //#region CustomizationManager
+  export class CustomziationManager {
+    currentAdorn: Adorn;
+    state: boolean;
+    colorSwapper: ColorManager;
+    svgSwapper: SVGManager;
+    modeSwapper: ModeManager;
+    titleSwapper: TitleManager;
+    constructor() { }
+    public ChangeMode(): void { }
+    public ChangeColor(_value: string) { }
+    public ReceiveAdorn(): void { }
+    public ChangeAdorn(_adorn: Adorn): void { }
+  }
+  export class Adorn {
+    adornObject: JSON;
+    name: string;
+    image: string;
+    constructor(_name: string, _image: string) {
+      this.name = _name;
+      this.image = _image;
+      this.CreateAddornObject();
+    }
+    CreateAddornObject(): void {
+      let auxiliaryObject: any = {
+        "Name": this.name,
+        "Image": this.image
+      }
+      this.adornObject = <JSON>auxiliaryObject;
+    }
+  }
+  export class Icons {
+
+  }
+  export class Swapper {
+    type: TypeOfSwap;
+    currentValue: string;
+    public Change(_value: string): void {
+    }
+    public SetValue(_value: string): void {
+      this.currentValue = _value;
+    }
+  }
+  export class ColorManager extends Swapper {
+    color: string[];
+    public Change(_value: string) {
+      if (this.CheckValue) {
+        this.currentValue = _value;
+      }
+      else {
+        throw console.error("The value wasnt in the array.");
+
+      }
+    }
+    public CheckValue(_desiredValue: string): boolean {
+      for (let index = 0; index < this.color.length; index++) {
+        if (_desiredValue == this.color[index]) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+  export class SVGManager extends Swapper {
+    svgs: DataStructure.List.List<Icons>;
+    constructor() {
+      super();
+    }
+    public AddValue(_icon: Icons) { }
+    public SortList(): void { }
+    public SortName(): void { }
+
+  }
+  export class ModeManager extends Swapper {
+    dark: boolean;
+    constructor() {
+      super();
+    }
+    public SetMode(_dark: boolean): void { }
+  }
+  export class TitleManager extends Swapper {
+    titles: DataStructure.List.List<string>;
+    constructor() {
+      super();
+    }
+  }
+  //#endregion
+
+  //#region TutorialManager
+  export class TutorialManager {
+    status: boolean;
+    focusPoints: Subject[];
+    activeFocusPoint: Subject;
+    public HabilitateTutorial(): void { }
+    public Skip(): void { }
+    public Next(index): void { }
+  }
+  export class Subject {
+    isActive: boolean;
+    textToShow: string;
+    focusPoint: any;
+    constructor(_text: string, _focus: any) {
+      this.SetText(_text);
+      this.SetFocus(_focus);
+    }
+    public SetText(_text: string): void {
+      this.textToShow = _text;
+    }
+    public SetFocus(_focus: any): void {
+      this.focusPoint = _focus;
+    }
+    public SetActive(_active: boolean): void {
+      this.isActive = _active;
+    }
+    public Activate(): JSON {
+      if (this.isActive) {
+        let subjectObject: JSON;
+        let auxiliaryObject: any = {
+          "Text": this.textToShow,
+          "Focus": this.focusPoint
+        }
+        auxiliaryObject = <JSON>subjectObject;
+        return auxiliaryObject;
+      }
+      else {
+        throw console.error("isActivate  wasn`t true so cannot Activate");
+      }
+    }
+    public Deactivate(): void {
+      this.isActive = false;
+    }
+  }
+  //#endregion
 }
