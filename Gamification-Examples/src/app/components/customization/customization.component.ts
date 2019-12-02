@@ -12,4 +12,14 @@ export class CustomizationComponent implements OnInit {
   ngOnInit() {
   }
 
+  //#region EVENTS
+    public OnRecoverData():void{}
+    public OnSetData():void{}
+    public OnChangeColor():void{}
+    public OnSetMode():void{}
+    public OnChangeSVG():void{}
+    public OnChangeTitle():void{}
+  //#endregion
+  
+
 }

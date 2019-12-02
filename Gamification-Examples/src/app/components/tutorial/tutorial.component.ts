@@ -12,4 +12,10 @@ export class TutorialComponent implements OnInit {
   ngOnInit() {
   }
 
+  //#region EVENTS
+  public OnBeginTour():void{}
+  public OnFinishTour():void{}
+  //#endregion
+  
+
 }

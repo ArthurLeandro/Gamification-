@@ -10,7 +10,11 @@ export namespace DataStructure {
     }
     export class Element<T>{
       data: DataStructure.ElementData.Data<T>;
-      next: DataStructure.ElementData.Element<T> = null;
+      next: DataStructure.ElementData.Element<T>;
+      constructor(_data:Data<T>){
+        this.data = _data;
+        this.next = null;
+      }
     }
   }
   export namespace List {

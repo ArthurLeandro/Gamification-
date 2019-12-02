@@ -9,7 +9,7 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 })
 export class RankingTeachingMethodComponent implements OnInit, AfterViewInit  {
 
-  private templateRanking : Ranking.RankingTemplateSortable;
+  // private templateRanking : Ranking.RankingTemplateSortable;
   @ViewChild(MatSort) sort: MatSort;
   dataSource;
 
@@ -26,21 +26,21 @@ export class RankingTeachingMethodComponent implements OnInit, AfterViewInit  {
     this.InitializeValues();
   }
   public InitializeRanking():void{
-    this.templateRanking = new Ranking.RankingTemplateSortable();
+    //this.templateRanking = new Ranking.RankingTemplateSortable();
   }
   public InitializeValues():void{
-    this.templateRanking.displayedColumns = Ranking.COLUMNS_ENGAGENEMET;
-    this.templateRanking.entriesData = Ranking.ENGAGEMENT_DATA;
-    this.dataSource = new MatTableDataSource(this.templateRanking.entriesData);
+    // this.templateRanking.displayedColumns = Ranking.COLUMNS_ENGAGENEMET;
+    // this.templateRanking.entriesData = Ranking.ENGAGEMENT_DATA;
+    // this.dataSource = new MatTableDataSource(this.templateRanking.entriesData);
   }
-  public GetDataSource(): Ranking.RankingEntry[] {
-    return this.dataSource;
-  }
+  // public GetDataSource(): Ranking.RankingEntry[] {
+  //   return this.dataSource;
+  // }
   public FilterValue(_valueBeingFiltered: string): void {
     this.dataSource.filter = _valueBeingFiltered.trim().toLocaleLowerCase();
   }
-  public GetColumns():string[]{
-    return this.templateRanking.displayedColumns;
-  }
+  // public GetColumns():string[]{
+  //   return this.templateRanking.displayedColumns;
+  // }
   
 }

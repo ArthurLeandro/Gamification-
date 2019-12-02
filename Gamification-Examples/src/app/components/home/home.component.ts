@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog,MatDialogConfig} from '@angular/material';
-
-import { DialogTestComponent } from '../dialog-test/dialog-test.component';
+import { DialogTestComponent } from '../modals-dialogs-pop-ups/dialog/dialog-test/dialog-test.component';
 
 @Component({
   selector: 'home-component',

@@ -1,40 +1,34 @@
 <mat-sidenav-container class="sidenav-container">
-          <mat-sidenav #drawer class="sidenav" fixedInViewport
-              [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-              [mode]="(isHandset$ | async) ? 'over' : 'side'"
-              [opened]="(isHandset$ | async) === false">
-            <mat-toolbar color="primary">
-            <h4><a style= "text-decoration: none; color: white " routerLink="/">Home</a></h4>
-              <div flex></div>
-              <button mat-icon-button class="SideNavCloseButton" (click)="drawer.close()">
-                  <mat-icon aria-label="Close Sidenav">close</mat-icon>
-              </button>
-            </mat-toolbar>
-            <mat-nav-list>
-              <a mat-list-item routerLink="/Interação" > Interação</a>
-              <a mat-list-item routerLink="/Eventos"   > Eventos</a> 
-              <a mat-list-item routerLink="/Customização"> Customização</a>
-              <a mat-list-item routerLink="/Tutorial"> Tutorial</a>
-              <a mat-list-item routerLink="/Ranking"> Ranking</a>
-            </mat-nav-list>
-          </mat-sidenav> 
-          <mat-sidenav-content>
-              <a (click)="drawer.toggle()">
-                <mat-toolbar color="primary">                
-                  <button mat-button
-                    type="mat-fab"
-                    aria-label="Toggle sidenav"
-                    mat-icon-button
-                    (click)="drawer.toggle()"
-                    *ngIf="isHandset$ | async">
-                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-                  </button>
-                  <span>Exemplos de Gamificação</span>
-                </mat-toolbar>
-              </a>
-            <div >
-              <router-outlet></router-outlet>
-            </div>
-            
-          </mat-sidenav-content>
+  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
+    <mat-toolbar color="primary">
+      <h4><a style="text-decoration: none; color: white " routerLink="/">Home</a></h4>
+      <div flex></div>
+      <button mat-icon-button class="SideNavCloseButton" (click)="drawer.close()">
+        <mat-icon aria-label="Close Sidenav">close</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/Level"> Nível </a>
+      <a mat-list-item routerLink="/Eventos"> Eventos</a>
+      <a mat-list-item routerLink="/Customização"> Customização</a>
+      <a mat-list-item routerLink="/Tutorial"> Tutorial</a>
+      <a mat-list-item routerLink="/Ranking"> Ranking</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <a (click)="drawer.toggle()">
+      <mat-toolbar color="primary">
+        <button mat-button type="mat-fab" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
+          *ngIf="isHandset$ | async">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span>Exemplos de Gamificação</span>
+      </mat-toolbar>
+    </a>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+
+  </mat-sidenav-content>
 </mat-sidenav-container>

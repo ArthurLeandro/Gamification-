@@ -1,4 +1,5 @@
-import { User } from '../Classes/user';import { InteractionServiceService } from './interaction-service.service';
+import { User } from '../../classes/user';
+import { InteractionServiceService } from './interaction-service.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

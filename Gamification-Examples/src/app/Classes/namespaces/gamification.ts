@@ -1,11 +1,14 @@
 import { DesignPatterns } from './design-patterns';
 import { DataStructure } from './data-structures';
 import { Injectable } from '@angular/core';
-import { summaryForJitName } from '@angular/compiler/src/aot/util';
 
 export namespace Gamification {
 
   //#region All Enums
+  /**Enumerado de todas as opções possivéis de Gamificação.
+  *
+  *  Essas opções são utilizadas como forma de controle e distinção das Gamificações.
+  */
   export enum TypeOfGamification {
     TUTORIAL,
     BLOCK,
@@ -23,36 +26,84 @@ export namespace Gamification {
     LEVEL,
     NOT_DEFINED_YET
   }
+  /**Enumerado do tipo de dados que o desenvolvedor terá que controlar.
+  *
+  * Esses dados terão utilidade na hora que forem enviados para dentro do servidor.
+  */
   export enum TypeOfData {
     RANKING_ENTRY,
     USER
   }
+  /**Enumerado de todos os tipos de recompensas que o usuário pode receber.
+  *
+  * Esses tipos são usados para auxiliar na forma de efetuar o parse dos dados.
+  */
   export enum TypeOfReward {
     REWARD,
     AWARD
   }
+  /**Enumerado de todos os tipos possivéis que uma missão poderá ter.
+  *
+  * São utilizadas em uma máquina de estados das missões.
+  */
   export enum StateOfMissions {
     FINISHED,
     STARTED,
     AVALIABLE,
     DISABLE
   }
+  /**Enumerado de todos os tipos de customizações possivéis.
+  
+  *São utilizados para controlar e organizar os dados.
+  */
   export enum TypeOfSwap {
     COLOR,
     MODE,
     SVG,
     TITLE
   }
+  /**Enumerado de todos os tipos de entrada dentro do Ranking. 
+  *É utilizado para controlar o Ranking e o que deve ser mostrado ao usuário.
+  */
   export enum TypeOfSort {
     MERIT,
     ENGAGEMENT
   }
+  /**Enumerado de todas as ações que o jogador poderá fazer dentro da plataforma para concluir uma missão.
+  
+  Esse enumerado é utilizado para ativar os eventos que auxiliam ele a completar missões.
+  
+  (Esse enumerador fica a cabo do desenvolvedor implementar na sua própria plataforma.)
+  */
   export enum TypeOfObjective {
     //all types of action that should be performed to count
+  }
+  /**Enumerado de todas as possivéis cores que podem ser utilizadas dentro de customizações.
+  *
+  * Essas cores são do Angular themes e caso o desenvolvedor crie seu próprio tema ele deverá criar enumerador válido.
+  */
+  export enum ValidColors {
+    //cores validas
   }
   //#endregion
 
   //#region All Interfaces
+  export interface CRUD {
+    OnCreate(_object: Object);
+    OnRead(_object: Object);
+    OnUpdate(_object: Object);
+    OnDelete(_object: Object);
+  }
+  export interface GenericGamifiedComponents {
+    OnRecoverData(): void;
+    OnSetData(): void;
+    OnSendData(): void;
+  }
+  export interface Services {
+    RecoverData(): void;
+    SetData(): void;
+    OnSendData(): void;
+  }
   export interface DataRetrivedInLevel {
     level: number;
     experience: number;
@@ -75,11 +126,10 @@ export namespace Gamification {
     likes: number;
   }
   export interface RankingConfigSortable {
-    entriesData: DataStructure.List.List<RankingEntry>;
+    entries: RankingEntry[];
     displayedColumns;
   }
   export interface RankingEntry {
-    //createAnObject(): any;
   }
   export interface MeritRankingEntry extends RankingEntry, Merit {
   }
@@ -95,6 +145,8 @@ export namespace Gamification {
   export class Gamification implements DesignPatterns.SingletonDesignPattern.ISingleton {
     instance: Gamification;
     typeOfGamification: TypeOfGamification;
+    displayedColumns: string[] = ['methods', 'description', 'params', 'returns'];
+    elementData: DocumentationInformation[];
     constructor(_type?: TypeOfGamification) {
       this.SetType(_type);
     }
@@ -113,6 +165,12 @@ export namespace Gamification {
       this.typeOfGamification = _type;
     }
   }
+  export interface DocumentationInformation {
+    methods: string;
+    description: string;
+    params: string;
+    returns: string;
+  }
   export class Reward {
     amountOfCoins: number;
     amountOfExperience: number;
@@ -123,67 +181,57 @@ export namespace Gamification {
 
   //#region LevelManager
   export namespace Level {
-    @Injectable({
-      providedIn: 'root'
-    })
     export class LevelManager extends Gamification {
-      levelController: LevelController;
+      currentLevel: number = 0;
       experienceReceiver: ExperienceReceiver;
       maxValueOfTheCurrentLevel: number;
       listOfObservers: DataStructure.List.List<DesignPatterns.ObservableDesignPattern.IObserver>;
+      elementData = [
+        { methods: "OnUpgradeLevel", description: "Procedimento usado para aumentar o nível do usuário", params: "Não aceita nenhum parâmetro.", returns: "void" },
+        { methods: "OnExperienceReceived", description: "Procedimento usado para receber algum valor de experiência.", params: "Valor da experiência.", returns: "void" },
+        { methods: "ShouldLevelUp", description: "Procedimento usado para analisar se o usuário deve ter seu nível aumentado.", params: "Não aceita nenhum parâmetro.", returns: "boolean" },
 
+      ];
       constructor(_exponential: number) {
         super(TypeOfGamification.LEVEL);
-        this.levelController = new LevelController();
         this.experienceReceiver = new ExperienceReceiver(_exponential);
         this.maxValueOfTheCurrentLevel = 200;
       }
 
       public OnUpgradeLevel(): void {
-        this.levelController.UpgradeLevel();
+        this.currentLevel++;
         this.maxValueOfTheCurrentLevel *= this.experienceReceiver.exponentialFactor;
       }
       public OnExperienceReceived(_amountOfExperience: number): void {
         this.experienceReceiver.AddAmount(_amountOfExperience);
         if (this.ShouldLevelUp) {
-          this.experienceReceiver.SumRestByTimeout(this.experienceReceiver.SubtractTheRest(this.experienceReceiver.currentAmount, this.maxValueOfTheCurrentLevel));
+          this.experienceReceiver.SumRestByTimeout(
+            this.experienceReceiver.SubtractTheRest(
+              this.experienceReceiver.currentAmount, this.maxValueOfTheCurrentLevel
+            ));
           this.OnUpgradeLevel();
         }
-      }
-      public OnRecoverData(_dataRetrieved: DataRetrivedInLevel): void {
-        this.levelController.SetCurrentLevel(_dataRetrieved.level);
-        this.experienceReceiver.SetCurrentAmount(_dataRetrieved.experience);
       }
       public ShouldLevelUp(): boolean {
         return (this.experienceReceiver.currentAmount > this.maxValueOfTheCurrentLevel);
       }
-
-    }
-    @Injectable({
-      providedIn: 'root'
-    })
-    export class LevelController {
-      currentLevel: number = 0;
-      constructor() {
-        this.SetCurrentLevel(0);
+      public GetElementData(): DocumentationInformation[] {
+        return this.elementData;
       }
-      public UpgradeLevel(): void {
-        this.currentLevel++;
+      public GetColumns(): string[] {
+        return this.displayedColumns;
+      }
+      public UPPLevel(): void {
+        this.SetCurrentLevel(this.currentLevel++);
+      }
+      public GetCurrentLevel(): number {
+        return this.currentLevel;
       }
       public SetCurrentLevel(_level: number): void {
         this.currentLevel = _level;
       }
-      public LoadLevel(): void {
-
-      }
-      public Update(): void {
-        //update when needed to load level
-      }
-
     }
-    @Injectable({
-      providedIn: 'root'
-    })
+    
     export class ExperienceReceiver {
       currentAmount: number;
       exponentialFactor: number;
@@ -207,33 +255,65 @@ export namespace Gamification {
       public SumRestByTimeout(_rest: number): void {
         setTimeout(function (_rest) {
           this.AddAmount(_rest);
-        }, 3000);
+        }, 1500);
       }
     }
   }
   //#endregion
 
   //#region RankingManager
-  export class RankingManager extends Gamification implements RankingConfigSortable {
-    entriesData: DataStructure.List.List<RankingEntry>;
+  export class RankingManager implements RankingConfigSortable {
+    entries: RankingEntry[];
     displayedColumns = [];
     typeOfSort: TypeOfSort;
-    public AddEntry(_entry: RankingEntry) {
-      //send to Database
-      //this.entriesData.AddElement(_entry);
+    constructor() {
     }
-    public RemoveEntry(_entry: RankingEntry) {
-      //remove from within the Database
-      // let auxiliary = this.entriesData.RemoveEspecificElement(_entry);
-      // if (auxiliary == null || auxiliary == undefined) {
-      //   alert("The entry " + _entry + " was null or undefined.");
-      // }
+    public AddEntry(_entry: Gamification.RankingEntry) {
+      this.entries.push(_entry);
     }
-    //TODO
-    public GetTypeOfRanking() { }
-    public SetType() { }
-    public GetEntries() { }
+    public RemoveEntry(_entry: Gamification.RankingEntry) {
+      return this.entries.filter(function (_element) {
+      });
 
+    }
+    public GetTypeOfRanking(): TypeOfSort {
+      return this.typeOfSort;
+    }
+    public SetType(_type: TypeOfSort): void {
+      this.typeOfSort = _type;
+    }
+    public OnViewRanking() {
+      this.OnReceiveData();
+    }
+    public OnChangeRanking(_type: TypeOfSort) {
+      switch (_type) {
+        case TypeOfSort.ENGAGEMENT:
+          this.displayedColumns = ['author', 'school', 'discipline', 'followers', 'posts', 'likes'];
+          break;
+        case TypeOfSort.MERIT:
+          this.displayedColumns = ['author', 'name', 'numberOfDownloads', 'numberOfFavorites', 'school', 'discipline'];
+          break;
+      }
+    }
+    public OnReceiveData() {
+      if (this.typeOfSort == TypeOfSort.ENGAGEMENT) {
+        this.entries = [
+          { numberOfDownloads: 3453, numberOfFavorites: 243, author: "Carlos Martins", school: 'Governador Milton Campos', discipline: "História", name: "História Interativa" },
+          { numberOfDownloads: 303, numberOfFavorites: 1, author: "Alváro Dami~so", school: "Colégio Tiradentes", discipline: "Portugês", name: "Acentos na História" },
+          { numberOfDownloads: 13, numberOfFavorites: 23, author: "Ana Cláudia", school: "Maestro Villa Lobos", discipline: "Redação", name: "Redação 1000%" },
+          { numberOfDownloads: 1345, numberOfFavorites: 265, author: "Marcela Alvares", school: "Ordem e Progresso", discipline: "Matemátca", name: "Matemática para Enem" }
+        ];
+      }
+      else {
+        this.entries = [
+          { author: 'Lúcio Silveira', discipline: 'Redação', followers: 56712, posts: 23451, school: 'Governador Milton Campos', likes: 144 },
+          { author: 'João Marcos', discipline: 'Educação Física', followers: 1992, posts: 213, school: 'Laureano Pimentel', likes: 1 },
+          { author: 'Luciano Marques', discipline: 'Geografia', followers: 134562, posts: 2361, school: 'Professora Isaura Santos', likes: 124 },
+          { author: 'Roberto Damasceno', discipline: 'História', followers: 13452, posts: 521, school: 'Ana Alves Teixeira', likes: 14 },
+          { author: 'Luciana Guimarães', discipline: 'Matemátca', followers: 1892, posts: 261, school: 'Antônio Mourão', likes: 44 },
+        ];
+      }
+    }
   }
   //#endregion
 
@@ -245,8 +325,7 @@ export namespace Gamification {
    * @var {MissionFinder} missionFinder Classe utilizada para atribuir um elemento de pesquisa ao gerenciador
    */
   export class MissionManager extends Gamification {
-    allMissions: DataStructure.List.List<Missions>;
-    missionFinder: MissionFinder;
+    allMissions: Missions[];
     constructor() {
       super();
     }
@@ -255,45 +334,26 @@ export namespace Gamification {
     * @returns void
     */
     OnMissionsReceived(_mission: Missions): void {
-      let auxiliary: DataStructure.ElementData.Element<Missions>;
-      auxiliary.data.dataInsideThisElements = _mission;
-      this.allMissions.AddElement(auxiliary);
+      this.allMissions.push(_mission);
     }
     /** Método responsável por concluir uma missão
     * @param {number} _id Identificador utilizado para achar uma missão dentro da lista
     * @returns void
     */
     OnMissionConcluded(_id: number): void {
-      let auxiliary = this.missionFinder.FindMission(_id);
-      auxiliary.OnConcluded();
+      // let auxiliary = this.missionFinder.FindMission(_id);
+      // auxiliary.OnConcluded();
     }
     /** Método responsável por atualizar o estado de uma missão
     * @param {number} _id Identificador utilizado para achar uma missão dentro da lista.
     * @returns void
     */
     OnMissionUpdate(_id: number): void {
-      let auxiliary = this.missionFinder.FindMission(_id);
+      let auxiliary = this.allMissions[this.allMissions.indexOf(this.allMissions[_id])];
       auxiliary.CheckObjective();
     }
   }
-  /** Classe responsável por atribuir ao Mission Manager uma maneira de pesquisar suas missões
-  */
-  export class MissionFinder {
-    /** Método responsável por encontrar uma missão baseada em seu id
-    * @param {number} id Valor que será usado para efetuar a busca da missão em uma lista
-    * @returns {Missions} Missão encontrada ou nulo caso não tenha sido encontrada
-    */
-    FindMission(id: number): Missions {
-      return this.ReturnMission(null);
-    }
-    /** Método responsável por retornar uma missão encontrada pelo FindMission
-     * @var {Missions} _mission Missão encontrada pelo Método FindMission
-     * @return {Missions} Missão encontrada pelo Método FindMission
-     */
-    ReturnMission(_mission: Missions): Missions {
-      return _mission;
-    }
-  }
+
   /**Classe que representa uma missão
    * É a classe genérica de onde todas as outras missões derivam e se especializam
    * @private Todos os atributos dessa classe são privados
@@ -546,22 +606,65 @@ export namespace Gamification {
   //#endregion
 
   //#region PointsManager
-  export class PointsManager {
+  /**'Classe que serve de gerente de todas a gamificação de pontuação'
+  *@private Todos os atributos desta casse são privados.
+  * @var {Reward} rewardToSet Um espaço dentro da memória que representa a recompensa que deve ser parseada e entregue ao usuário.
+  * @var {Award} awardToSet Um espaço dentro da memória que representa a conquista (achievement) que deve ser parseada e entregue ao usuário.
+  * @var {string} imageToShow O caminho para uma imagem que deve ser usada em uma demonstração.
+  */
+  export class PointsManager extends Gamification {
     rewardToSet: Reward;
     awardToSet: Award;
     imageToShow: string;
+    constructor() {
+      super(TypeOfGamification.POINTS);
+    }
+    //#region Getters & Setters
+    /**'Retorna o objeto Recompensa'
+    */
+    public GetReward(): Reward {
+      return this.rewardToSet;
+    }
+    /**'Retorna o objeto Conquista'
+    */
+    public GetAward(): Award {
+      return this.awardToSet;
+    }
+    /**'Retorna a string Imagem'
+    */
+    public GetImage(): string {
+      return this.imageToShow;
+    }
+    /** 'Seta a Recompensa'
+    * @param _reward Recompensa a ser dada
+    * @returns void
+    */
+    public SetReward(_reward: Reward): void {
+      this.rewardToSet = _reward;
+    }
+    /** 'Seta a Recompensa'
+    * @param _award Conquista a ser dada
+    * @returns void
+    */
+    public SetAward(_award: Award): void {
+      this.awardToSet = _award;
+    }
+    /** 'Set a Image'
+    * @param _image Image a ser dada
+    * @returns void
+    */
+    public SetImage(_image: string): void {
+      this.imageToShow = _image;
+    }
+    //#endregion
+
     public OnPopUp(): void {
 
     }
     public OnClosePopUp(): void {
 
     }
-    public SetReward(reward: Reward): void {
 
-    }
-    public SetAward(award: Award): void {
-
-    }
     public ShowUser(): void {
 
     }
@@ -569,6 +672,7 @@ export namespace Gamification {
 
     }
   }
+
   export class Points {
     amountOfPoints: number;
     public ClampValue(_minValue: number, _maxValue: number, _value: number): number {
@@ -582,39 +686,55 @@ export namespace Gamification {
         return _value;
       }
     }
+    public IncreasePoints(_amount: number) {
+      this.amountOfPoints += _amount;
+    }
   }
+
   export class CoinPoints extends Points {
     constructor(_amount: number) {
       super();
       this.amountOfPoints = _amount;
-    }
-
-    public OnBuyingItem(_item: Item) {
-
     }
   }
   export class KarmaPoints extends Points {
     constructor(_amount: number) {
       super();
       this.amountOfPoints = _amount;
-      this.amountOfPoints = this.ClampValue(0.1, 2.0, _amount)
+      this.amountOfPoints += 1;
+    }
+    public IncreasePoints(_amount: number) {
+      this.amountOfPoints += this.ClampValue(0.1, 2.0, _amount);
     }
   }
   export class ReputationPoints extends Points {
     constructor(_amount: number) {
       super();
       this.amountOfPoints = _amount;
-      this.amountOfPoints = this.ClampValue(1, 5, _amount)
+      this.amountOfPoints = 0;
     }
-  }
-
-  export class Item {
-
+    public IncreasePoints(_amount: number) {
+      this.amountOfPoints += this.ClampValue(1, 5, _amount)
+    }
   }
   export class Award {
     name: string;
     description: string;
     type: TypeOfReward;
+    constructor(_name: string, _description: string, _type: TypeOfReward) {
+      this.SetDescription(_description);
+      this.SetName(_name);
+      this.SetType(_type);
+    }
+    public SetName(_name: string) {
+      this.name = _name;
+    }
+    public SetDescription(_description: string) {
+      this.description = _description;
+    }
+    public SetType(_type: TypeOfReward) {
+      this.type = _type;
+    }
 
     public OnReceiveAward() {
 
@@ -624,18 +744,35 @@ export namespace Gamification {
   //#endregion
 
   //#region CustomizationManager
-  export class CustomziationManager {
+  export class CustomizationManager extends Gamification {
     currentAdorn: Adorn;
+    allAdorns: Adorn[];
     state: boolean;
     colorSwapper: ColorManager;
     svgSwapper: SVGManager;
     modeSwapper: ModeManager;
     titleSwapper: TitleManager;
-    constructor() { }
-    public ChangeMode(): void { }
-    public ChangeColor(_value: string) { }
-    public ReceiveAdorn(): void { }
-    public ChangeAdorn(_adorn: Adorn): void { }
+    constructor() {
+      super(TypeOfGamification.CUSTOMIZATION);
+      this.state = true;
+      this.colorSwapper = new ColorManager();
+      this.svgSwapper = new SVGManager();
+      this.modeSwapper = new ModeManager();
+      this.titleSwapper = new TitleManager();
+    }
+    public OnChangeMode(): void {
+      this.state = !this.state;
+      this.modeSwapper.SetMode(this.state);
+    }
+    public OnChangeColor(_value: ValidColors) {
+      this.colorSwapper.SetValue(_value.toString());
+    }
+    public OnReceiveAdorn(_adorn: Adorn): void {
+      this.allAdorns.push(_adorn);
+    }
+    public OnChangeAdorn(_adorn: Adorn): void {
+      this.currentAdorn = _adorn;
+    }
   }
   export class Adorn {
     adornObject: JSON;
@@ -646,7 +783,7 @@ export namespace Gamification {
       this.image = _image;
       this.CreateAddornObject();
     }
-    CreateAddornObject(): void {
+    public CreateAddornObject(): void {
       let auxiliaryObject: any = {
         "Name": this.name,
         "Image": this.image
@@ -687,14 +824,23 @@ export namespace Gamification {
     }
   }
   export class SVGManager extends Swapper {
-    svgs: DataStructure.List.List<Icons>;
+    svgs: string[];
     constructor() {
       super();
     }
-    public AddValue(_icon: Icons) { }
-    public SortList(): void { }
-    public SortName(): void { }
-
+    public AddValue(_icon: string) {
+      this.svgs.push(_icon);
+    }
+    public SortList(): void {
+      this.svgs.sort(function (a, b) {
+        var nameA = a.toLowerCase(), nameB = b.toLowerCase();
+        if (nameA < nameB) //sort string ascending
+          return -1;
+        if (nameA > nameB)
+          return 1;
+        return 0; //default return value (no sorting)
+      });
+    }
   }
   export class ModeManager extends Swapper {
     dark: boolean;
@@ -704,7 +850,7 @@ export namespace Gamification {
     public SetMode(_dark: boolean): void { }
   }
   export class TitleManager extends Swapper {
-    titles: DataStructure.List.List<string>;
+    titles: string[];
     constructor() {
       super();
     }
@@ -712,13 +858,35 @@ export namespace Gamification {
   //#endregion
 
   //#region TutorialManager
-  export class TutorialManager {
+  export class TutorialManager extends Gamification {
     status: boolean;
     focusPoints: Subject[];
     activeFocusPoint: Subject;
-    public HabilitateTutorial(): void { }
-    public Skip(): void { }
-    public Next(index): void { }
+    constructor() {
+      super(TypeOfGamification.TUTORIAL);
+      this.status = true;
+    }
+    public HabilitateTutorial(): void {
+      this.status = !this.status;
+    }
+    public SetFocus(_subject: Subject) {
+      this.focusPoints.push(_subject);
+    }
+    public SetActiveFocus() {
+      if (this.activeFocusPoint == this.focusPoints[this.focusPoints.length - 1]) {
+        this.Skip();
+      }
+      this.activeFocusPoint = this.focusPoints[this.focusPoints.indexOf(this.activeFocusPoint) + 1];
+    }
+    public Skip(): void {
+      this.activeFocusPoint = null;
+    }
+    public Next(): void {
+      this.activeFocusPoint = this.focusPoints[this.focusPoints.indexOf(this.activeFocusPoint) + 1];
+      if (this.activeFocusPoint == this.focusPoints[this.focusPoints.length - 1]) {
+        this.status = false;
+      }
+    }
   }
   export class Subject {
     isActive: boolean;
@@ -756,4 +924,5 @@ export namespace Gamification {
     }
   }
   //#endregion
+
 }

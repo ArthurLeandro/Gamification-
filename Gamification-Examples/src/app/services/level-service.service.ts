@@ -11,7 +11,7 @@ import { Gamification } from './../classes/namespaces/gamification';
 })
 export class LevelService {
   levelManager: Gamification.Level.LevelManager;
-  exponentialFactor:number = 0;
+  exponentialFactor:number = 1.6;
   constructor() {
     this.levelManager = new Gamification.Level.LevelManager(this.exponentialFactor);
   }
