@@ -18,14 +18,15 @@
           </div>
         </mat-card-header>
         <mat-card-actions>
-          <button mat-raised-button (click)="OnUpdateExperience()">OnUpdateExperience</button>
+          <button mat-raised-button (click)="OnUpdateExperience($event.target.value)">OnUpdateExperience</button>
           <button mat-raised-button (click)="OnLevelUp()">OnLevelUpgrade</button>
         </mat-card-actions>
         <mat-card-content class="visual-helper-content">
-          <mat-progress-bar></mat-progress-bar>
+          <mat-progress-bar mode="determinate" value="{{BarValue()}}" matTooltip="{{GetCurrentAmountOfExperience().toString()}}/{{GetMaxAmount().toString()}}">
+
+          </mat-progress-bar>
           <div>
             <h6>Level : {{GetLevel()}}</h6>
-            <input type="number">
           </div>
         </mat-card-content>
       </mat-card>

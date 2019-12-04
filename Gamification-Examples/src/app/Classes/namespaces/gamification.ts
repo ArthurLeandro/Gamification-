@@ -201,19 +201,20 @@ export namespace Gamification {
       public OnUpgradeLevel(): void {
         this.currentLevel++;
         this.maxValueOfTheCurrentLevel *= this.experienceReceiver.exponentialFactor;
+        this.experienceReceiver.currentAmount = 0;
       }
       public OnExperienceReceived(_amountOfExperience: number): void {
         this.experienceReceiver.AddAmount(_amountOfExperience);
-        if (this.ShouldLevelUp) {
+        if (this.ShouldLevelUp()) {
           this.experienceReceiver.SumRestByTimeout(
-            this.experienceReceiver.SubtractTheRest(
-              this.experienceReceiver.currentAmount, this.maxValueOfTheCurrentLevel
+            this.experienceReceiver.SubtractTheRest(this.experienceReceiver.currentAmount, this.maxValueOfTheCurrentLevel
             ));
           this.OnUpgradeLevel();
         }
       }
       public ShouldLevelUp(): boolean {
-        return (this.experienceReceiver.currentAmount > this.maxValueOfTheCurrentLevel);
+        if (this.experienceReceiver.currentAmount >= this.maxValueOfTheCurrentLevel) return true;
+        else return false;
       }
       public GetElementData(): DocumentationInformation[] {
         return this.elementData;
@@ -231,7 +232,7 @@ export namespace Gamification {
         this.currentLevel = _level;
       }
     }
-    
+
     export class ExperienceReceiver {
       currentAmount: number;
       exponentialFactor: number;
@@ -243,18 +244,22 @@ export namespace Gamification {
         this.currentAmount = _value;
       }
       public AddAmount(_value: number): void {
-        this.currentAmount = _value
+        this.currentAmount += _value;
       }
       public SubtractTheRest(current: number, maxAtThisLevel: number): number {
         if (current > maxAtThisLevel) {
           let rest = current - maxAtThisLevel;
+          setTimeout(function () {
+            this.currentamount += rest;
+          },1500);
           return rest;
         }
         return 0;
       }
       public SumRestByTimeout(_rest: number): void {
-        setTimeout(function (_rest) {
-          this.AddAmount(_rest);
+        let value = _rest;
+        setTimeout(function () {
+          this.currentAmount += value;
         }, 1500);
       }
     }

@@ -1,3 +1,7 @@
 .mat-card-actions{
   text-align: center;
 }
+.mat-progress-bar{
+  padding: 1em;
+  margin: 2em;
+}

@@ -1,5 +1,5 @@
 import { LevelService } from './../../services/level-service.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, enableProdMode } from '@angular/core';
 import { Gamification } from 'src/app/classes/namespaces/gamification';
 
 @Component({
@@ -7,41 +7,54 @@ import { Gamification } from 'src/app/classes/namespaces/gamification';
   templateUrl: './level.component.html',
   styleUrls: ['./level.component.css']
 })
-export class LevelComponent implements OnInit, Gamification.GenericGamifiedComponents,Gamification.CRUD{
-  
-  constructor(private levelService:LevelService) {
+export class LevelComponent implements OnInit, Gamification.GenericGamifiedComponents, Gamification.CRUD {
+
+  constructor(private levelService: LevelService) {
   }
   ngOnInit() {
+    console.log(this.BarValue());
   }
-  //#region EVENTS TO DEVELOP
-    public OnUpdateExperience(_value:number){
-      this.levelService.levelManager.OnExperienceReceived(_value); 
-    }
-    public OnLevelUp(){
-      this.levelService.levelManager.OnUpgradeLevel();
-    }
-    public GetDataSource():Gamification.DocumentationInformation[]{
-      return this.levelService.levelManager.GetElementData();
-    }
-    public GetColumns():string[]{
-      return this.levelService.levelManager.GetColumns();
-    }
-    public GetLevel():string{
-      return this.levelService.levelManager.currentLevel.toString();
-    }
-    public OnSetData(){
-      throw new Error("Method should be implemented by the developerw.");
-    }
-    public OnRecoverData(){
-      throw new Error("Method should be implemented by the developerw.");
-    }
-    OnSendData(): void {
-      throw new Error("Method should be implemented by the developerw.");
-    }
-   
-    
+  //#region VIEWER
+
+  public GetDataSource(): Gamification.DocumentationInformation[] {
+    return this.levelService.levelManager.GetElementData();
+  }
+  public GetColumns(): string[] {
+    return this.levelService.levelManager.GetColumns();
+  }
+  public GetLevel(): string {
+    return this.levelService.levelManager.currentLevel.toString();
+  }
+  public GetCurrentAmountOfExperience(): number {
+    return this.levelService.levelManager.experienceReceiver.currentAmount;
+  }
+  public GetMaxAmount(): number {
+    return this.levelService.levelManager.maxValueOfTheCurrentLevel;
+  }
+  public BarValue(): number {
+    return (this.GetCurrentAmountOfExperience()*100) / this.GetMaxAmount();
+  }
   //#endregion
-  
+  //#region EVENTS TO DEVELOP
+  public OnUpdateExperience(_value: any) {
+    this.levelService.levelManager.OnExperienceReceived(100);
+  }
+  public OnLevelUp() {
+    this.levelService.levelManager.OnUpgradeLevel();
+  }
+  public OnSetData() {
+    throw new Error("Method should be implemented by the developerw.");
+  }
+  public OnRecoverData() {
+    throw new Error("Method should be implemented by the developerw.");
+  }
+  OnSendData(): void {
+    throw new Error("Method should be implemented by the developerw.");
+  }
+
+
+  //#endregion
+
   //#region CRUD 
   OnCreate(_object: Object) {
     throw new Error("Method not implemented.");
@@ -55,7 +68,7 @@ export class LevelComponent implements OnInit, Gamification.GenericGamifiedCompo
   OnDelete(_object: Object) {
     throw new Error("Method not implemented.");
   }
-  
+
   //#endregion  
-  
+
 }
