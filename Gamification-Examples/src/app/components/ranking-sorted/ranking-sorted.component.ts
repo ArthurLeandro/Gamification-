@@ -14,6 +14,16 @@ export class RankingSortedComponent implements OnInit {
   ngOnInit() {
   }
 
+  //#region VIEWER
+  public GetDataSource(){
+    return this.rankingSortedService.rankingManager.GetElementData();
+  }
+  public GetAllColumns(){
+    return this.rankingSortedService.rankingManager.GetColumns();
+  }
+
+  //#endregion
+
   //#region EVENTS TO DEVELOP
   public OnNewEntry(_entry:Gamification.RankingEntry){
     let auxiliary:Gamification.RankingEntry = _entry;
@@ -21,7 +31,7 @@ export class RankingSortedComponent implements OnInit {
   }
   public OnAddEntry(_entry:Gamification.RankingEntry){
     this.rankingSortedService.rankingManager.AddEntry(_entry);
-  }
+  } 
   public OnRemoveEntry(_entry:Gamification.RankingEntry){
     this.rankingSortedService.rankingManager.RemoveEntry(_entry);
   }

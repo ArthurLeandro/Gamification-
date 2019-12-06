@@ -161,6 +161,12 @@ export namespace Gamification {
     public GetType(): TypeOfGamification {
       return this.typeOfGamification;
     }
+    public GetElementData(): DocumentationInformation[] {
+      return this.elementData;
+    }
+    public GetColumns(): string[] {
+      return this.displayedColumns;
+    }
     public SetType(_type: TypeOfGamification): void {
       this.typeOfGamification = _type;
     }
@@ -190,7 +196,6 @@ export namespace Gamification {
         { methods: "OnUpgradeLevel", description: "Procedimento usado para aumentar o nível do usuário", params: "Não aceita nenhum parâmetro.", returns: "void" },
         { methods: "OnExperienceReceived", description: "Procedimento usado para receber algum valor de experiência.", params: "Valor da experiência.", returns: "void" },
         { methods: "ShouldLevelUp", description: "Procedimento usado para analisar se o usuário deve ter seu nível aumentado.", params: "Não aceita nenhum parâmetro.", returns: "boolean" },
-
       ];
       constructor(_exponential: number) {
         super(TypeOfGamification.LEVEL);
@@ -215,12 +220,6 @@ export namespace Gamification {
       public ShouldLevelUp(): boolean {
         if (this.experienceReceiver.currentAmount >= this.maxValueOfTheCurrentLevel) return true;
         else return false;
-      }
-      public GetElementData(): DocumentationInformation[] {
-        return this.elementData;
-      }
-      public GetColumns(): string[] {
-        return this.displayedColumns;
       }
       public UPPLevel(): void {
         this.SetCurrentLevel(this.currentLevel++);
@@ -251,7 +250,7 @@ export namespace Gamification {
           let rest = current - maxAtThisLevel;
           setTimeout(function () {
             this.currentamount += rest;
-          },1500);
+          }, 1500);
           return rest;
         }
         return 0;
@@ -267,11 +266,17 @@ export namespace Gamification {
   //#endregion
 
   //#region RankingManager
-  export class RankingManager implements RankingConfigSortable {
+  export class RankingManager extends Gamification implements RankingConfigSortable {
     entries: RankingEntry[];
     displayedColumns = [];
     typeOfSort: TypeOfSort;
+    elementData = [
+      { methods: "OnUpgradeLevel", description: "Procedimento usado para aumentar o nível do usuário", params: "Não aceita nenhum parâmetro.", returns: "void" },
+      { methods: "OnExperienceReceived", description: "Procedimento usado para receber algum valor de experiência.", params: "Valor da experiência.", returns: "void" },
+      { methods: "ShouldLevelUp", description: "Procedimento usado para analisar se o usuário deve ter seu nível aumentado.", params: "Não aceita nenhum parâmetro.", returns: "boolean" }
+    ];
     constructor() {
+      super(TypeOfGamification.RANKING);
     }
     public AddEntry(_entry: Gamification.RankingEntry) {
       this.entries.push(_entry);
@@ -279,12 +284,11 @@ export namespace Gamification {
     public RemoveEntry(_entry: Gamification.RankingEntry) {
       return this.entries.filter(function (_element) {
       });
-
     }
     public GetTypeOfRanking(): TypeOfSort {
       return this.typeOfSort;
     }
-    public SetType(_type: TypeOfSort): void {
+    public SetTypeOfRanking(_type: TypeOfSort): void {
       this.typeOfSort = _type;
     }
     public OnViewRanking() {
@@ -304,7 +308,7 @@ export namespace Gamification {
       if (this.typeOfSort == TypeOfSort.ENGAGEMENT) {
         this.entries = [
           { numberOfDownloads: 3453, numberOfFavorites: 243, author: "Carlos Martins", school: 'Governador Milton Campos', discipline: "História", name: "História Interativa" },
-          { numberOfDownloads: 303, numberOfFavorites: 1, author: "Alváro Dami~so", school: "Colégio Tiradentes", discipline: "Portugês", name: "Acentos na História" },
+          { numberOfDownloads: 303, numberOfFavorites: 1, author: "Alváro Damião", school: "Colégio Tiradentes", discipline: "Portugês", name: "Acentos na História" },
           { numberOfDownloads: 13, numberOfFavorites: 23, author: "Ana Cláudia", school: "Maestro Villa Lobos", discipline: "Redação", name: "Redação 1000%" },
           { numberOfDownloads: 1345, numberOfFavorites: 265, author: "Marcela Alvares", school: "Ordem e Progresso", discipline: "Matemátca", name: "Matemática para Enem" }
         ];
