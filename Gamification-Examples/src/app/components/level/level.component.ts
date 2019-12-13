@@ -12,7 +12,6 @@ export class LevelComponent implements OnInit, Gamification.GenericGamifiedCompo
   constructor(private levelService: LevelService) {
   }
   ngOnInit() {
-    console.log(this.BarValue());
   }
   //#region VIEWER
 

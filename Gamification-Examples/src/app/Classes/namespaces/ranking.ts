@@ -80,7 +80,7 @@ export namespace Ranking {
   
   //#region DisplayedColumnsTemplate
   export const COLUMNS_MERIT = ['author', 'school', 'discipline', 'followers', 'posts', 'likes'];
-  export const COLUMNS_ENGAGENEMET = ['author', 'name', 'numberOfDownloads', 'numberOfFavorites', 'school', 'discipline'];
+  export const COLUMNS_ENGAGEMENT = ['author', 'name', 'numberOfDownloads', 'numberOfFavorites', 'school', 'discipline'];
   //#endregion
 
   export const MERIT_DATA: Ranking.MeritRankingEntry[] = [

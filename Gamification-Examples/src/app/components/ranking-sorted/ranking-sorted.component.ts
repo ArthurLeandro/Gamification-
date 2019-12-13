@@ -15,10 +15,10 @@ export class RankingSortedComponent implements OnInit {
   }
 
   //#region VIEWER
-  public GetDataSource(){
+  public GetDataSource():Gamification.DocumentationInformation[]{
     return this.rankingSortedService.rankingManager.GetElementData();
   }
-  public GetAllColumns(){
+  public GetColumns():string[]{
     return this.rankingSortedService.rankingManager.GetColumns();
   }
 
@@ -26,8 +26,7 @@ export class RankingSortedComponent implements OnInit {
 
   //#region EVENTS TO DEVELOP
   public OnNewEntry(_entry:Gamification.RankingEntry){
-    let auxiliary:Gamification.RankingEntry = _entry;
-    this.rankingSortedService.rankingManager.AddEntry(auxiliary);
+    this.rankingSortedService.rankingManager.AddEntry(_entry);
   }
   public OnAddEntry(_entry:Gamification.RankingEntry){
     this.rankingSortedService.rankingManager.AddEntry(_entry);

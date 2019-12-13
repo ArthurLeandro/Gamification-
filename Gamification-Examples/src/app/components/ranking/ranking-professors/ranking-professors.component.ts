@@ -1,5 +1,5 @@
+import { Gamification } from 'src/app/classes/namespaces/gamification';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Ranking } from '../ranking';
 import { MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
@@ -7,39 +7,32 @@ import { MatSort, MatTableDataSource } from '@angular/material';
   templateUrl: './ranking-professors.component.html',
   styleUrls: ['./ranking-professors.component.css']
 })
-export class RankingProfessorsComponent implements OnInit, AfterViewInit {
+export class RankingProfessorsComponent extends Gamification.RankingViewer implements OnInit, AfterViewInit {
 
-  // private templateRanking: Ranking.RankingTemplateSortable;
   @ViewChild(MatSort) sort: MatSort;
   dataSource;
+  entriesData;
+  displayedColumns = [];
+
   constructor() {
+    super();
   }
   ngOnInit() {
-    //this.Init();
+    this.displayedColumns = Gamification.COLUMNS_MERIT;
+    this.dataSource = Gamification.MERIT_DATA;
+    this.entriesData = new MatTableDataSource(this.dataSource);
   }
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  // }
-  // public Init(): void {
-  //   this.InitializeRanking();
-  //   this.InitializeValues();
-  // }
-  // public InitializeRanking(): void {
-  //   this.templateRanking = new Ranking.RankingTemplateSortable();
-  // }
-  // public InitializeValues(): void {
-  //   this.templateRanking.displayedColumns = Ranking.COLUMNS_MERIT;
-  //   this.templateRanking.entriesData = Ranking.MERIT_DATA;
-  //   this.dataSource = new MatTableDataSource(this.templateRanking.entriesData);
-  // }
-  // public GetColumns(): string[] {
-  //   return this.templateRanking.displayedColumns;
-  // }
-  // public GetDataSource():Ranking.RankingEntry[] {
-  //   return this.dataSource;
-  // }
-  // public FilterValue(_valueBeingFiltered: string): void {
-  //   this.dataSource.filter = _valueBeingFiltered.trim().toLocaleLowerCase();
+    this.entriesData.sort = this.sort;
+  }
+  public GetColumns(): string[] {
+    return this.displayedColumns;
+  }
+  public GetDataSource(): Gamification.RankingEntry[] {
+    return this.entriesData;
+  }
+  public FilterValue(_valueBeingFiltered: string): void {
+    this.entriesData.filter = _valueBeingFiltered.trim().toLocaleLowerCase();
   }
 
 

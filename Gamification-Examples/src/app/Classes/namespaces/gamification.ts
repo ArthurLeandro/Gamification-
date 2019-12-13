@@ -1,6 +1,7 @@
 import { DesignPatterns } from './design-patterns';
 import { DataStructure } from './data-structures';
 import { Injectable } from '@angular/core';
+import { MatSort } from '@angular/material';
 
 export namespace Gamification {
 
@@ -149,6 +150,7 @@ export namespace Gamification {
     elementData: DocumentationInformation[];
     constructor(_type?: TypeOfGamification) {
       this.SetType(_type);
+      this.GetInstance();
     }
     public GetInstance(): DesignPatterns.SingletonDesignPattern.ISingleton {
       let _instance: Gamification = null;
@@ -266,9 +268,23 @@ export namespace Gamification {
   //#endregion
 
   //#region RankingManager
+  export const COLUMNS_MERIT = ['author', 'school', 'discipline', 'followers', 'posts', 'likes'];
+  export const COLUMNS_ENGAGEMENT = ['author', 'name', 'numberOfDownloads', 'numberOfFavorites', 'school', 'discipline'];
+  export const MERIT_DATA: MeritRankingEntry[] = [
+    { author: 'Lúcio Silveira', discipline: 'Redação', followers: 56712, posts: 23451, school: 'Governador Milton Campos', likes: 144 },
+    { author: 'João Marcos', discipline: 'Educação Física', followers: 1992, posts: 213, school: 'Laureano Pimentel', likes: 1 },
+    { author: 'Luciano Marques', discipline: 'Geografia', followers: 134562, posts: 2361, school: 'Professora Isaura Santos', likes: 124 },
+    { author: 'Roberto Damasceno', discipline: 'História', followers: 13452, posts: 521, school: 'Ana Alves Teixeira', likes: 14 },
+    { author: 'Luciana Guimarães', discipline: 'Matemátca', followers: 1892, posts: 261, school: 'Antônio Mourão', likes: 44 },
+  ];
+  export const ENGAGEMENT_DATA: EngagementRankingEntry[] = [
+    { numberOfDownloads: 3453, numberOfFavorites: 243, author: "Carlos Martins", school: 'Governador Milton Campos', discipline: "História", name: "História Interativa" },
+    { numberOfDownloads: 303, numberOfFavorites: 1, author: "Alváro Dami~so", school: "Colégio Tiradentes", discipline: "Portugês", name: "Acentos na História" },
+    { numberOfDownloads: 13, numberOfFavorites: 23, author: "Ana Cláudia", school: "Maestro Villa Lobos", discipline: "Redação", name: "Redação 1000%" },
+    { numberOfDownloads: 1345, numberOfFavorites: 265, author: "Marcela Alvares", school: "Ordem e Progresso", discipline: "Matemátca", name: "Matemática para Enem" }
+  ];
   export class RankingManager extends Gamification implements RankingConfigSortable {
     entries: RankingEntry[];
-    displayedColumns = [];
     typeOfSort: TypeOfSort;
     elementData = [
       { methods: "OnUpgradeLevel", description: "Procedimento usado para aumentar o nível do usuário", params: "Não aceita nenhum parâmetro.", returns: "void" },
@@ -291,38 +307,22 @@ export namespace Gamification {
     public SetTypeOfRanking(_type: TypeOfSort): void {
       this.typeOfSort = _type;
     }
-    public OnViewRanking() {
-      this.OnReceiveData();
+  }
+  export class RankingViewer {
+    entriesData: Gamification.RankingEntry[];
+    displayedColumns;
+    dataSource;
+    sort;
+    public GetColumns(): string[] {
+      return this.displayedColumns;
     }
-    public OnChangeRanking(_type: TypeOfSort) {
-      switch (_type) {
-        case TypeOfSort.ENGAGEMENT:
-          this.displayedColumns = ['author', 'school', 'discipline', 'followers', 'posts', 'likes'];
-          break;
-        case TypeOfSort.MERIT:
-          this.displayedColumns = ['author', 'name', 'numberOfDownloads', 'numberOfFavorites', 'school', 'discipline'];
-          break;
-      }
+    public GetDataSource(): RankingEntry[] {
+      return this.dataSource;
     }
-    public OnReceiveData() {
-      if (this.typeOfSort == TypeOfSort.ENGAGEMENT) {
-        this.entries = [
-          { numberOfDownloads: 3453, numberOfFavorites: 243, author: "Carlos Martins", school: 'Governador Milton Campos', discipline: "História", name: "História Interativa" },
-          { numberOfDownloads: 303, numberOfFavorites: 1, author: "Alváro Damião", school: "Colégio Tiradentes", discipline: "Portugês", name: "Acentos na História" },
-          { numberOfDownloads: 13, numberOfFavorites: 23, author: "Ana Cláudia", school: "Maestro Villa Lobos", discipline: "Redação", name: "Redação 1000%" },
-          { numberOfDownloads: 1345, numberOfFavorites: 265, author: "Marcela Alvares", school: "Ordem e Progresso", discipline: "Matemátca", name: "Matemática para Enem" }
-        ];
-      }
-      else {
-        this.entries = [
-          { author: 'Lúcio Silveira', discipline: 'Redação', followers: 56712, posts: 23451, school: 'Governador Milton Campos', likes: 144 },
-          { author: 'João Marcos', discipline: 'Educação Física', followers: 1992, posts: 213, school: 'Laureano Pimentel', likes: 1 },
-          { author: 'Luciano Marques', discipline: 'Geografia', followers: 134562, posts: 2361, school: 'Professora Isaura Santos', likes: 124 },
-          { author: 'Roberto Damasceno', discipline: 'História', followers: 13452, posts: 521, school: 'Ana Alves Teixeira', likes: 14 },
-          { author: 'Luciana Guimarães', discipline: 'Matemátca', followers: 1892, posts: 261, school: 'Antônio Mourão', likes: 44 },
-        ];
-      }
+    public FilterValue(_valueBeingFiltered: string): void {
+      this.dataSource.filter = _valueBeingFiltered.trim().toLocaleLowerCase();
     }
+
   }
   //#endregion
 

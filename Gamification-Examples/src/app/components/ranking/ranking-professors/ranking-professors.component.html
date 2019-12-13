@@ -4,7 +4,7 @@
   </mat-form-field>
 </div>
 <br>
-<table mat-table [dataSource]="GetDataSource()" matSort matSortStart="desc">
+<table mat-table [dataSource]="dataSource" matSort matSortStart="desc">
 
   <ng-container matColumnDef="author">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> Professor</th>
