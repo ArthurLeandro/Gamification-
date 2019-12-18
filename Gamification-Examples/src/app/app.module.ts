@@ -43,6 +43,7 @@ import {MissionService} from './services/mission.service';
 import { PointsService } from './services/points.service';
 import { CustomizationService } from './services/customization.service';
 import { TutorialService } from './services/tutorial.service';
+import { BlackThemeDirective } from './shared/black-theme.directive';
 //#endregion
 
 @NgModule({
@@ -65,7 +66,8 @@ import { TutorialService } from './services/tutorial.service';
     RankingProfessorsComponent,
     LevelComponent,
     RankingSortedComponent,
-    MissionComponent
+    MissionComponent,
+    BlackThemeDirective
   ],
   imports: [
     BrowserModule,

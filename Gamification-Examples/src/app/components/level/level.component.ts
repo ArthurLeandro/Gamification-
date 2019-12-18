@@ -1,5 +1,5 @@
 import { LevelService } from './../../services/level-service.service';
-import { Component, OnInit, enableProdMode } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Gamification } from 'src/app/classes/namespaces/gamification';
 
 @Component({
@@ -7,7 +7,7 @@ import { Gamification } from 'src/app/classes/namespaces/gamification';
   templateUrl: './level.component.html',
   styleUrls: ['./level.component.css']
 })
-export class LevelComponent implements OnInit, Gamification.GenericGamifiedComponents, Gamification.CRUD {
+export class LevelComponent implements OnInit,Gamification.GenericGamifiedComponents, Gamification.CRUD {
 
   constructor(private levelService: LevelService) {
   }

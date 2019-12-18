@@ -10,8 +10,32 @@ import { Gamification } from './../classes/namespaces/gamification';
   providedIn: 'root'
 })
 export class MissionService {
-  missionManager:Gamification.MissionManager;
+  missionManager: Gamification.MissionManager;
   constructor() {
-    this.missionManager = new Gamification.MissionManager;
-   }
+    this.missionManager = new Gamification.MissionManager();
+  }
+
+
+  public CreateMissions(): void {
+    for (let i = 1; i < 8; i++) {
+      let reward = new Gamification.Reward(
+        (100*i),
+        (200*i),
+        1.0,
+        Gamification.TypeOfReward.REWARD
+      );
+      let mission: Gamification.Missions = new Gamification.Missions(
+        i.toString()+ "° Missão",
+        i,
+        i*10,
+        "Esta é a "+ i.toString()  +"° missão",
+        Gamification.StateOfMissions.AVALIABLE,
+        Gamification.TypeOfObjective.NORMAL,
+        reward
+      );
+      this.missionManager.OnMissionsReceived(mission);
+    }
+
+
+  }
 }

@@ -1,1 +1,6 @@
-<app-main-menu></app-main-menu>
+<!-- <div [ngClass]="{'dark-theme':isThemeDark}" -->
+<div>
+  <div>
+    <app-main-menu (themeDataGiver)= "Splitter()" ></app-main-menu>
+  </div>
+</div>

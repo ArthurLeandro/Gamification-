@@ -1,7 +1,7 @@
 import { DesignPatterns } from './design-patterns';
 import { DataStructure } from './data-structures';
-import { Injectable } from '@angular/core';
 import { MatSort } from '@angular/material';
+import {Subject} from 'rxjs';
 
 export namespace Gamification {
 
@@ -78,6 +78,7 @@ export namespace Gamification {
   */
   export enum TypeOfObjective {
     //all types of action that should be performed to count
+    NORMAL
   }
   /**Enumerado de todas as possivéis cores que podem ser utilizadas dentro de customizações.
   *
@@ -136,6 +137,11 @@ export namespace Gamification {
   }
   export interface EngagementRankingEntry extends RankingEntry, BasicEngagement {
   }
+  export interface Colors{
+    value:string;
+    viewValue:string;
+
+  }
   //#endregion
 
   //#region Base Class for all Gamification
@@ -184,6 +190,12 @@ export namespace Gamification {
     amountOfExperience: number;
     karma: number;
     type: TypeOfReward;
+    constructor(_amountOfCoins:number,_amountOfExperience:number,_karma:number,_type:TypeOfReward){
+      this.amountOfCoins = _amountOfCoins;
+      this.amountOfExperience = _amountOfExperience;
+      this.karma = _karma;
+      this.type = _type;
+    }
   }
   //#endregion
 
@@ -334,7 +346,7 @@ export namespace Gamification {
    * @var {MissionFinder} missionFinder Classe utilizada para atribuir um elemento de pesquisa ao gerenciador
    */
   export class MissionManager extends Gamification {
-    allMissions: Missions[];
+    allMissions:Array<Missions> = new Array<Missions>();
     constructor() {
       super();
     }
@@ -361,6 +373,17 @@ export namespace Gamification {
       let auxiliary = this.allMissions[this.allMissions.indexOf(this.allMissions[_id])];
       auxiliary.CheckObjective();
     }
+    //find index
+    //return mission of that specific index
+    public GetMission(identifier:any):Missions{
+      let mission = this.allMissions.find(mission =>
+        mission.name == identifier || mission.id == identifier
+      );
+      if (mission!=null || mission != undefined){
+        return mission;
+      } 
+      throw console.error("The mission wasn´t found");
+    }
   }
 
   /**Classe que representa uma missão
@@ -377,6 +400,7 @@ export namespace Gamification {
   export class Missions {
     name: string;
     id: number;
+    currentAmount:number;
     amountToComplete: number;
     description: string;
     state: StateOfMissions;
@@ -390,6 +414,7 @@ export namespace Gamification {
       this.SetState(_state);
       this.SetTypeOfObjectives(_typeOfObjective);
       this.SetReward(_reward);
+      this.currentAmount = 0;
     }
     //#region Getters & Setters
     /** Método responsável por pegar o atributo name
@@ -761,6 +786,11 @@ export namespace Gamification {
     svgSwapper: SVGManager;
     modeSwapper: ModeManager;
     titleSwapper: TitleManager;
+    elementData = [
+      { methods: "OnUpgradeLevel", description: "Procedimento usado para aumentar o nível do usuário", params: "Não aceita nenhum parâmetro.", returns: "void" },
+      { methods: "OnExperienceReceived", description: "Procedimento usado para receber algum valor de experiência.", params: "Valor da experiência.", returns: "void" },
+      { methods: "ShouldLevelUp", description: "Procedimento usado para analisar se o usuário deve ter seu nível aumentado.", params: "Não aceita nenhum parâmetro.", returns: "boolean" }
+    ];
     constructor() {
       super(TypeOfGamification.CUSTOMIZATION);
       this.state = true;
@@ -770,7 +800,6 @@ export namespace Gamification {
       this.titleSwapper = new TitleManager();
     }
     public OnChangeMode(): void {
-      this.state = !this.state;
       this.modeSwapper.SetMode(this.state);
     }
     public OnChangeColor(_value: ValidColors) {
@@ -813,9 +842,9 @@ export namespace Gamification {
     }
   }
   export class ColorManager extends Swapper {
-    color: string[];
+    color: Colors[];
     public Change(_value: string) {
-      if (this.CheckValue) {
+      if (this.CheckValue(_value)) {
         this.currentValue = _value;
       }
       else {
@@ -825,7 +854,7 @@ export namespace Gamification {
     }
     public CheckValue(_desiredValue: string): boolean {
       for (let index = 0; index < this.color.length; index++) {
-        if (_desiredValue == this.color[index]) {
+        if (_desiredValue == this.color[index].value) {
           return true;
         }
       }
@@ -851,15 +880,23 @@ export namespace Gamification {
       });
     }
   }
+
   export class ModeManager extends Swapper {
-    dark: boolean;
+    private dark = new Subject<boolean> ();
+    isDark = this.dark.asObservable();    
     constructor() {
       super();
     }
-    public SetMode(_dark: boolean): void { }
+    public SetMode(_dark: boolean): void { 
+      this.dark.next(_dark);
+    }
   }
   export class TitleManager extends Swapper {
-    titles: string[];
+    titles: Colors[]=[
+      {value:"novato",viewValue:"Novato"},
+      {value:"experiente",viewValue:"Experiente"},
+      {value:"avançado",viewValue:"Avançado"},
+    ];
     constructor() {
       super();
     }
@@ -869,8 +906,8 @@ export namespace Gamification {
   //#region TutorialManager
   export class TutorialManager extends Gamification {
     status: boolean;
-    focusPoints: Subject[];
-    activeFocusPoint: Subject;
+    focusPoints: ElementSubject[];
+    activeFocusPoint: ElementSubject;
     constructor() {
       super(TypeOfGamification.TUTORIAL);
       this.status = true;
@@ -878,7 +915,7 @@ export namespace Gamification {
     public HabilitateTutorial(): void {
       this.status = !this.status;
     }
-    public SetFocus(_subject: Subject) {
+    public SetFocus(_subject: ElementSubject) {
       this.focusPoints.push(_subject);
     }
     public SetActiveFocus() {
@@ -897,7 +934,7 @@ export namespace Gamification {
       }
     }
   }
-  export class Subject {
+  export class ElementSubject {
     isActive: boolean;
     textToShow: string;
     focusPoint: any;
