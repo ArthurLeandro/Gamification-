@@ -22,13 +22,13 @@ import { Missions } from './../Classes/missions';
  */
 
 export class User{
-  private points:number;
-  private level:number;
-  private karmaPoints:number;
-  private experiencePoints:number;
-  private educoin:number;
-  private medals:Medals[]; 
-  private missions:Missions[];
+  public points:number;
+  public level:number;
+  public karmaPoints:number;
+  public experiencePoints:number;
+  public educoin:number;
+  public medals:Medals[]; 
+  public missions:Missions[];
   // private description: Description;
   // private contents:Content[];
 
@@ -48,25 +48,28 @@ export class User{
     this.atributes.KarmaPoints = 1;
     let firstMedal = new Medals("Bem vindo a Rede Educa", "Medalha dada como boas vindas ao usuário da rede Educa.");
     this.atributes.Medall = [firstMedal];
-    //description that may come along by randomizing
-    // if(_description != null || _description != undefined){
-    //   console.log("_description wasnt null");
-    //   this.description.name = _description.DescriptionObject.Name;
-    //   this.description.profession = _description.DescriptionObject.Profession;
-    //   this.description.school = _description.DescriptionObject.School;
-    //   this.description.discipline[0] = _description.DescriptionObject.Discipline;
-    // }
-    // //content that may come along by randomizing
-    // if(_content != null || _content!= undefined){
-    //   console.log("_content wasnt null");
-    //   this.contents[0].name = _content.ContentObject.Name;
-    //   this.contents[0].subject = _content.ContentObject.Subject;
-    //   this.contents[0].contentInIt = _content.ContentObject.Content;
-    //   this.contents[0].likes = _content.ContentObject.Likes;
-    //   this.contents[0].downloads = _content.ContentObject.Downloads;
-    // }
+    
     console.log("User finished to be created");
   }
+
+  //#region Getter & Setter
+  public GetPoints():number{
+    return this.points;
+  }
+  public GetLevel():number{
+    return this.level;
+  }
+  public GetExperience():number{
+    return this.experiencePoints;
+  }
+  public GetKarmaPoints():number{
+    return this.karmaPoints;
+  }
+  public GetCoin():number{
+    return this.educoin;
+  }
+  //#endregion
+
   public AddMedal(_medal:Medals):void{
     this.medals.push(_medal);
     console.log("Medal was pushed");

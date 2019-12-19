@@ -650,8 +650,14 @@ export namespace Gamification {
     rewardToSet: Reward;
     awardToSet: Award;
     imageToShow: string;
+    elementData = [
+      { methods: "OnUpgradeLevel", description: "Procedimento usado para aumentar o nível do usuário", params: "Não aceita nenhum parâmetro.", returns: "void" },
+      { methods: "OnExperienceReceived", description: "Procedimento usado para receber algum valor de experiência.", params: "Valor da experiência.", returns: "void" },
+      { methods: "ShouldLevelUp", description: "Procedimento usado para analisar se o usuário deve ter seu nível aumentado.", params: "Não aceita nenhum parâmetro.", returns: "boolean" },
+    ];
     constructor() {
       super(TypeOfGamification.POINTS);
+
     }
     //#region Getters & Setters
     /**'Retorna o objeto Recompensa'

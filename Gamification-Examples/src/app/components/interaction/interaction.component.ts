@@ -1,6 +1,10 @@
+import { DialogTestComponent } from './../modals-dialogs-pop-ups/dialog/dialog-test/dialog-test.component';
+import { DialogPointsComponent } from './../modals-dialogs-pop-ups/dialog/dialog-points/dialog-points.component';
+import { MatDialog } from '@angular/material';
+import { InteractionServiceService } from './../../services/interaction-service.service';
 import { User } from '../../classes/user';
-import { InteractionServiceService } from './interaction-service.service';
 import { Component, OnInit } from '@angular/core';
+import { Gamification } from 'src/app/classes/namespaces/gamification';
 
 @Component({
   selector: 'app-interaction',
@@ -8,52 +12,65 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./interaction.component.css']
 })
 
-export class InteractionComponent implements OnInit {
-  user:User;
-  public service: InteractionServiceService;
-  
-  constructor(){}
+export class InteractionComponent implements OnInit,Gamification.GenericGamifiedComponents, Gamification.CRUD {
+  public user:User;
+  constructor(private interactionService:InteractionServiceService,public dialog: MatDialog){}
 
   ngOnInit() {
-    this.service = new InteractionServiceService();
-    this.user = new User();
+    this.user = new User();    
   }
 
   //#region Users Action
-  
-  public OnCreation(_event:any):void{
-    let _actionName = InteractionComponent.GetNameOfCaller(_event);
-    this.user = this.service.OnCreated(_actionName,this.user);
-    console.log("User Points " + this.user.atributes.Points);
-    console.log("User Experience Points "+ this.user.atributes.ExperiencePoints);
+  //#region VIEWER
+
+  public GetDataSource(): Gamification.DocumentationInformation[] {
+    return this.interactionService.interactionManager.GetElementData();
   }
-  public OnRegistered(_event:any){
-    let _actionName = InteractionComponent.GetNameOfCaller(_event);
-    this.user =  this.service.OnRegistered(_actionName,this.user);
-    console.log("User Points " + this.user.atributes.Points);
-    console.log("User Experience Points "+ this.user.atributes.ExperiencePoints);
+  public GetColumns(): string[] {
+    return this.interactionService.interactionManager.GetColumns();
   }
-  public OnEngaged(_event:any){
-    let _actionName = InteractionComponent.GetNameOfCaller(_event);
-    this.user =  this.service.OnEngaged(_actionName,this.user);
-    console.log("User Points " + this.user.atributes.Points);
-    console.log("User Experience Points "+ this.user.atributes.ExperiencePoints);
+  public OpenRewardDialog():void{
+    let dialog = this.dialog.open(DialogPointsComponent,{});
+    dialog.afterClosed().subscribe(result=>
+      (console.log("The dialog was closed."))
+    );
   }
-  public OnKarmaChange(_event:any):void{
-    let _actionName = InteractionComponent.GetNameOfCaller(_event);
-    this.user.atributes.KarmaPoints += this.service.ChangeKarma(_actionName);
-    if(this.user.atributes.KarmaPoints <= 0)
-      this.user.atributes.KarmaPoints = 0.1;
+  public OpenAwardDialog():void{
+    let dialog = this.dialog.open(DialogTestComponent,{});
+    dialog.afterClosed().subscribe(result=>
+      (console.log("The dialog was closed."))
+    );
+  }
+  //#endregion
+  //#region EVENTS TO DEVELOP
+  public OnSetData() {
+    throw new Error("Method should be implemented by the developerw.");
+  }
+  public OnRecoverData() {
+    throw new Error("Method should be implemented by the developerw.");
+  }
+  OnSendData(): void {
+    throw new Error("Method should be implemented by the developerw.");
   }
 
+
   //#endregion
-  public static GetNameOfCaller(_event:any):string{
-    let _actionName = _event.target.textContent;
-    if(_actionName!= null ||_actionName!= undefined )
-      return _actionName;
-    else
-      return null;
+
+  //#region CRUD 
+  OnCreate(_object: Object) {
+    throw new Error("Method not implemented.");
   }
+  OnRead(_object: Object) {
+    throw new Error("Method not implemented.");
+  }
+  OnUpdate(_object: Object) {
+    throw new Error("Method not implemented.");
+  }
+  OnDelete(_object: Object) {
+    throw new Error("Method not implemented.");
+  }
+
+  //#endregion  
 
 }
 

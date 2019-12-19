@@ -10,7 +10,7 @@ export class DialogTestComponent implements OnInit {
 
   title:           string = "Título";
   textToBeShowned: string = "Texto que vai aparecer";
-
+  path:string = "assets/images/award.png";
   constructor(public dialogBox :MatDialogRef<DialogTestComponent>) { 
     
   }

@@ -1,12 +1,13 @@
-<div >
+<div>
+  <h1 mat-dialog-title>Conquistas</h1> 
+</div>
+<div mat-dialog-content>
   <div>
-    <!-- <h4>{{title}}</h4> -->
-    <button mat-icon-button (click)="OnClose()">
-      <mat-icon aria-label="Close DialogBox">close</mat-icon>
-    </button>
-    <mat-divider></mat-divider>  
+    <img src="{{path}}">
   </div>
-  <div>
-    <!-- <p>{{textToBeShowned}}</p> -->
-  </div>  
+  <h4>Bem Vindo</h4>
+  <h6>Seja bem vindo a nossa plataforma!</h6>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="OnClose()">Receber</button>
 </div>

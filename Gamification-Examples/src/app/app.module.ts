@@ -16,7 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 //#region Componenents
 import { RankingComponent } from './components/ranking/ranking.component';
-import { InteractionServiceService } from './components/interaction/interaction-service.service';
+import { InteractionServiceService } from './services/interaction-service.service';
 import { CustomizationComponent } from './components/customization/customization.component';
 import { InteractionComponent } from './components/interaction/interaction.component';
 import { EventsComponent } from './events/events.component';

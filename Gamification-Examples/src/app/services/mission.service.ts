@@ -17,6 +17,11 @@ export class MissionService {
 
 
   public CreateMissions(): void {
+    if(this.missionManager.allMissions[0]!=undefined){
+      if(this.missionManager.allMissions[0].name == "1° Missão"){
+        return;
+      }
+    }
     for (let i = 1; i < 8; i++) {
       let reward = new Gamification.Reward(
         (100*i),

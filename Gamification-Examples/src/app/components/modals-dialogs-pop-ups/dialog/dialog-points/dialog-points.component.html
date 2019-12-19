@@ -1,3 +1,14 @@
-<p>
-  dialog-poitns works!
-</p>
+<div>
+  <h1 mat-dialog-title>Conquistas</h1> 
+  
+</div>
+<div mat-dialog-content>
+  <div>
+    <img src="{{path}}">
+  </div>
+  <h6>Moedas: 100</h6>
+  <h6>Experiência: 200</h6>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="OnClose()">Receber</button>
+</div>

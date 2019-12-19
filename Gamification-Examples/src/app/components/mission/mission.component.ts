@@ -10,8 +10,10 @@ import { Gamification } from 'src/app/classes/namespaces/gamification';
 export class MissionComponent implements OnInit, Gamification.GenericGamifiedComponents, Gamification.CRUD {
 
   missions;
+  controller: boolean = false;
 
-  constructor(private missionService: MissionService) { }
+  constructor(private missionService: MissionService) {
+   }
 
   ngOnInit() {
     this.missionService.CreateMissions();
