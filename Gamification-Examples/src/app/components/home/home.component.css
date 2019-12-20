@@ -1,17 +1,116 @@
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* REGION FOOTER & HEADER */
+  .header-content,
+  .footer-content {
+    margin: 0;
+    border: 0;
+    padding: 2em;
+    background: #3f51b5;
+  }
 
-body{
-  background-color: rgb(119, 119, 119);
-}
+  .header-intro,.footer-content {
+    text-align: center;
+    color: white;
+  }
 
-.mat-card-title{
-  text-align: center;
-}
+  .footer-wrapper {
+    padding: 2em;
+    background-color: #3f51b5;
+  }
 
-.mat-card-actions{
-  display: flexbox;
-}
+  .header-h1 {
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 56px;
+    margin: 15px 5px;
+  }
 
-.a{
-  float: right;
-}
+  .footer-h1 {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 35px;
+    margin: 15px 0 25px;
+  }
+
+  .header-h2,
+  .footer-h2 {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 28px;
+    margin: 15px 0 25px;
+  }
+
+  .footer-h4 {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 20px;
+    margin: 15px 0 25px;
+  }
+
+/* END REGION */
+
+
+/* REGION  CONTENT */
+  .content{
+    background: white;
+  }
+  .intro-content{
+    text-align: center;
+    padding: 0.6em;
+  }
+  .intro-wrapper{
+    display: flex;
+    padding: 2em;
+    /* overflow: auto; */
+  }
+  .intro-image{
+    background: red;
+    width: 50%;
+    /* display: inline-block; */
+  }
+  .intro-write{
+    width: 50%;
+    /* display: inline-block;
+    vertical-align: top; */
+  }
+
+  .flow-theory-content{
+    text-align: center;
+    padding: 0.6em;
+  }
+  .flow-theory-wrapper{
+    display: flex;
+    padding: 2em;
+    /* overflow: auto; */
+  }
+  .flow-theory-image{
+    background: red;
+    width: 50%;
+    /* display: inline-block; */
+  }
+  .flow-theory-write{
+    width: 50%;
+    /* display: inline-block;
+    vertical-align: top; */
+  }
+
+  .maslow-theory-content{
+    text-align: center;
+    padding: 0.6em;
+  }
+  .maslow-theory-wrapper{
+    display: flex;
+    padding: 2em;
+    /* overflow: auto; */
+  }
+  .maslow-theory-image{
+    background: red;
+    width: 50%;
+    /* display: inline-block; */
+  }
+  .maslow-theory-write{
+    width: 50%;
+    /* display: inline-block;
+    vertical-align: top; */
+  }
+
+/* END REGION */

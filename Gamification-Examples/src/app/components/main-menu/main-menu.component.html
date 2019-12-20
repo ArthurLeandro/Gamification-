@@ -1,8 +1,10 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-    <mat-toolbar color="primary">
-      <h4><a style="text-decoration: none; color: white " routerLink="/">Home</a></h4>
+    <mat-toolbar   class="mat-elevation-z6" color="primary">
+      <h4>
+        <a style="text-decoration: none; color: white " routerLink="/">Home</a>
+      </h4>
       <div flex></div>
       <button mat-icon-button class="SideNavCloseButton" (click)="drawer.close()">
         <mat-icon aria-label="Close Sidenav">close</mat-icon>
@@ -19,7 +21,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <a (click)="drawer.toggle()">
-      <mat-toolbar color="primary">
+      <mat-toolbar class="mat-elevation-z6" color="primary">
         <button mat-button type="mat-fab" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
           *ngIf="isHandset$ | async">
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
@@ -30,6 +32,5 @@
     <div>
       <router-outlet (activate)="OnThemeDataReceived($event)"></router-outlet>
     </div>
-
   </mat-sidenav-content>
 </mat-sidenav-container>
